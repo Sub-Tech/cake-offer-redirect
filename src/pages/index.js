@@ -22,7 +22,7 @@ export default function Home(props) {
     return (
         <>
             <Head>
-                <title>Cake Offer Down</title>
+                <title>Extra Reward 4 You</title>
                 <meta name="description" content="This offer may no longer be available or you do not qualify for it."/>
                 <meta name="viewport" content="width=device-width, initial-scale=1"/>
                 <link rel="icon" href="/favicon.ico"/>
