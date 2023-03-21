@@ -13,7 +13,7 @@ export default function Home(props) {
 
         return (
             <>
-                <h2 className={styles.offersHeaderText}>Other offers you might like {props.siteConfig.geo} </h2>
+                <h2 className={styles.offersHeaderText}>Other offers you might like</h2>
                 <div data-adzuki-id={props.siteConfig.affiliate} data-adzuki-ads='10' data-adzuki-top-tags={props.siteConfig.tag}></div>
             </>
         )
