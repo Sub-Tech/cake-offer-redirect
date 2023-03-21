@@ -96,6 +96,10 @@ d.addEventListener('DOMContentLoaded',function(){(k.adsbyadzuki=k.adsbyadzuki||[
                         Return To Site
                     </a> : null }
                 </main>
+                <div className={styles.footer}>
+                    <p>Copyright © {new Date().getFullYear()} extrareward4you</p>
+                    <p>Owned by Submission Technology Ltd. (04456811)</p>
+                </div>
             </div>
         </>
     )
