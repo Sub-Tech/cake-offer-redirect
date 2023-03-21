@@ -13,7 +13,7 @@ export default function Home(props) {
 
         return (
             <>
-                <h2 className={styles.offersHeaderText}>Other offers you might like </h2>
+                <h2 className={styles.offersHeaderText}>Other offers you might like {props.siteConfig.geo} </h2>
                 <div data-adzuki-id={props.siteConfig.affiliate} data-adzuki-ads='10' data-adzuki-top-tags={props.siteConfig.tag}></div>
             </>
         )
@@ -149,6 +149,17 @@ export function getServerSideProps(context) {
                 config.geo = 'US';
                 config.link = 'https://usproducttesting.com/';
                 config.tag = 'coreg';
+                break;
+            default:
+                if(!context?.query?.country || context?.query?.country === 'GB' | context?.query?.country === 'gb' || context?.query?.country === 'UK' || context?.query?.country === 'uk') {
+                    config.geo = 'UK';
+                    config.affiliate = '19464';
+                }
+
+                if(context?.query?.country === 'US' || context?.query?.country === 'us') {
+                    config.geo = 'US';
+                    config.affiliate = '19465';
+                }
                 break;
         }
 
