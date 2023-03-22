@@ -14,7 +14,7 @@ export default function Home(props) {
         return (
             <>
                 <h2 className={styles.offersHeaderText}>Other offers you might like</h2>
-                <div data-adzuki-id={props.siteConfig.affiliate}
+                <div data-adzuki-id={props.siteConfig.adzuki_id}
                      data-adzuki-ads={props.displayConfig.number_of_ads}
                      data-adzuki-top-tags={props.siteConfig.tag}
                      data-adzuki-ad-size={props.displayConfig.ad_size}
@@ -48,12 +48,14 @@ k="noModule" in u;u.async=true;u.src=k?i+'.module.js':i+'.js';z.appendChild(u);k
 d.addEventListener('DOMContentLoaded',function(){(k.adsbyadzuki=k.adsbyadzuki||[]).push(['init', a])})})({
   geo: '${props.siteConfig.geo}',
   reference : 'extrareward4you',
-  s3 : '${props.displayConfig.code}'
+  s3 : '${props.displayConfig.code}',
+  s4 : '${props.siteConfig.affiliate}',
 })`,
                 }}
             />
 
-            <Script strategy="beforeInteractive" src="https://www.googletagmanager.com/gtag/js?id=G-8VWVQFXWCF"></Script>
+            <Script strategy="beforeInteractive"
+                    src="https://www.googletagmanager.com/gtag/js?id=G-8VWVQFXWCF"></Script>
             <Script
                 id="gtag"
                 strategy="beforeInteractive"
@@ -100,7 +102,7 @@ d.addEventListener('DOMContentLoaded',function(){(k.adsbyadzuki=k.adsbyadzuki||[
                     {renderAdzuki()}
                     {(props.siteConfig.link) ? <a href={props.siteConfig.link} className={styles.button}>
                         Return To Site
-                    </a> : null }
+                    </a> : null}
                 </main>
                 <div className={styles.footer} style={{backgroundColor: props.displayConfig.branding_colour}}>
                     <p>Copyright © {new Date().getFullYear()} extrareward4you</p>
@@ -115,60 +117,69 @@ export function getServerSideProps(context) {
     const getSiteConfig = () => {
 
         let config = {
-            affiliate: (context?.query?.affiliate) ?? null,
+            adzuki_id: null,
             geo: null,
             logo: null,
             alt: null,
             link: null,
-            tag: null
+            tag: null,
+            affiliate : (context?.query?.affiliate) ?? null
         }
 
         switch (config.affiliate) {
+            // UK Sites
+            case '19229':
+            case '17739':
             case '19304':
                 config.logo = '/logos/cashback.png';
+                config.adzuki_id = '19304'
                 config.geo = 'UK';
                 config.link = 'https://cashback.co.uk/';
                 config.tag = 'cashback';
                 break;
             case '18920':
+            case '19073' :
                 config.logo = '/logos/paid-surveys.png';
+                config.adzuki_id = '18920';
                 config.geo = 'UK';
                 config.link = 'https://paidsurveys.uk.com/';
                 config.tag = 'paid_surveys';
                 break;
-            case '19200' || '18915':
-                config.logo = '/logos/20-cogs.png';
-                config.geo = 'UK';
-                config.link = 'https://20cogs.co.uk/';
-                config.tag = '20cogs';
-                break;
+
+            // US Sites
             case '18685':
                 config.logo = '/logos/global-survey-hub.png';
+                config.adzuki_id = '18685';
                 config.geo = 'US';
                 config.link = 'https://www.globalsurveyhub.com/';
                 config.tag = 'coreg';
                 break;
             case '18691':
                 config.logo = '/logos/product-testing-usa.png';
+                config.adzuki_id = '18691';
                 config.geo = 'US';
                 config.link = 'https://producttestingusa.com/';
                 config.tag = 'coreg';
                 break;
+            case '17768':
+            case '19410':
+            case '16489':
             case '18824':
                 config.logo = '/logos/us-product-testing.png';
+                config.adzuki_id = '18824';
                 config.geo = 'US';
                 config.link = 'https://usproducttesting.com/';
                 config.tag = 'coreg';
                 break;
             default:
-                if(!context?.query?.country || context?.query?.country === 'GB' | context?.query?.country === 'gb' || context?.query?.country === 'UK' || context?.query?.country === 'uk') {
+                if (!context?.query?.country || context?.query?.country === 'GB' | context?.query?.country === 'gb' || context?.query?.country === 'UK' || context?.query?.country === 'uk') {
                     config.geo = 'UK';
-                    config.affiliate = '19464';
+                    config.adzuki_id = '19464';
                 }
 
-                if(context?.query?.country === 'US' || context?.query?.country === 'us') {
+                if (context?.query?.country === 'US' || context?.query?.country === 'us') {
                     config.geo = 'US';
-                    config.affiliate = '19465';
+                    config.adzuki_id = '19465';
                 }
                 break;
         }
@@ -187,11 +198,11 @@ export function getServerSideProps(context) {
             ad_size: ad_sizes[Math.floor(Math.random() * ad_sizes.length)],
             display_title: display_titles[Math.floor(Math.random() * display_titles.length)],
             number_of_ads: number_of_ads[Math.floor(Math.random() * number_of_ads.length)],
-            code : ''
+            code: ''
         };
 
         Object.keys(config).forEach((key, index) => {
-            if(key === 'code'){
+            if (key === 'code') {
                 return;
             }
             let condensedKey = key.split('_').map((item) => {
@@ -199,7 +210,7 @@ export function getServerSideProps(context) {
             }).join('_');
 
 
-            config.code = config.code + condensedKey + '=' + config[key] + ((index < (Object.keys(config).length - 2))? ',': '');
+            config.code = config.code + condensedKey + '=' + config[key] + ((index < (Object.keys(config).length - 2)) ? ',' : '');
         });
 
         console.log(config);
@@ -212,7 +223,7 @@ export function getServerSideProps(context) {
             affiliate: (context?.query?.affiliate) ?? null,
             tag: (context?.query?.tag) ?? null,
             siteConfig: getSiteConfig(),
-            displayConfig : getDisplayConfig()
+            displayConfig: getDisplayConfig()
         },
     };
 }
