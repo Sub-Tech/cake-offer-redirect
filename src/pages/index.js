@@ -14,7 +14,12 @@ export default function Home(props) {
         return (
             <>
                 <h2 className={styles.offersHeaderText}>Other offers you might like</h2>
-                <div data-adzuki-id={props.siteConfig.affiliate} data-adzuki-ads='10' data-adzuki-top-tags={props.siteConfig.tag}></div>
+                <div data-adzuki-id={props.siteConfig.affiliate}
+                     data-adzuki-ads={props.displayConfig.number_of_ads}
+                     data-adzuki-top-tags={props.siteConfig.tag}
+                     data-adzuki-ad-size={props.displayConfig.ad_size}
+                     data-adzuki-with-title-text={(props.displayConfig.display_title === '1') ? '1' : ''}
+                ></div>
             </>
         )
     }
@@ -42,7 +47,8 @@ i='https://client.getadzuki.com/adzuki-client';d=document;z=d.getElementsByTagNa
 k="noModule" in u;u.async=true;u.src=k?i+'.module.js':i+'.js';z.appendChild(u);k=window;
 d.addEventListener('DOMContentLoaded',function(){(k.adsbyadzuki=k.adsbyadzuki||[]).push(['init', a])})})({
   geo: '${props.siteConfig.geo}',
-  reference : 'extrareward4you'
+  reference : 'extrareward4you',
+  s3 : '${props.displayConfig.code}'
 })`,
                 }}
             />
@@ -76,7 +82,7 @@ d.addEventListener('DOMContentLoaded',function(){(k.adsbyadzuki=k.adsbyadzuki||[
             />
 
             <div className={styles.body}>
-                <div className={styles.header}>
+                <div className={styles.header} style={{backgroundColor: props.displayConfig.branding_colour}}>
                     {(props.siteConfig.logo) ?
                         <Image
                             className={styles.logo}
@@ -96,7 +102,7 @@ d.addEventListener('DOMContentLoaded',function(){(k.adsbyadzuki=k.adsbyadzuki||[
                         Return To Site
                     </a> : null }
                 </main>
-                <div className={styles.footer}>
+                <div className={styles.footer} style={{backgroundColor: props.displayConfig.branding_colour}}>
                     <p>Copyright © {new Date().getFullYear()} extrareward4you</p>
                     <p>Owned by Submission Technology Ltd. (04456811)</p>
                 </div>
@@ -128,7 +134,7 @@ export function getServerSideProps(context) {
                 config.logo = '/logos/paid-surveys.png';
                 config.geo = 'UK';
                 config.link = 'https://paidsurveys.uk.com/';
-                config.tag = 'cashback';
+                config.tag = 'paid_surveys';
                 break;
             case '19200' || '18915':
                 config.logo = '/logos/20-cogs.png';
@@ -171,12 +177,42 @@ export function getServerSideProps(context) {
         return config;
     }
 
+    const getDisplayConfig = () => {
+        const branding_colours = ['#1c99bf', '#1cbf4a', '#bf9e1c', '#5d1cbf', '#bf1c78']
+        const ad_sizes = ['medium_rectangle', 'large_mobile_banner']
+        const display_titles = ['1', '0']
+        const number_of_ads = ['3', '6', '9', '10', '15']
+        let config = {
+            branding_colour: branding_colours[Math.floor(Math.random() * branding_colours.length)],
+            ad_size: ad_sizes[Math.floor(Math.random() * ad_sizes.length)],
+            display_title: display_titles[Math.floor(Math.random() * display_titles.length)],
+            number_of_ads: number_of_ads[Math.floor(Math.random() * number_of_ads.length)],
+            code : ''
+        };
+
+        Object.keys(config).forEach((key, index) => {
+            if(key === 'code'){
+                return;
+            }
+            let condensedKey = key.split('_').map((item) => {
+                return item.charAt(0);
+            }).join('_');
+
+
+            config.code = config.code + condensedKey + '=' + config[key] + ((index < (Object.keys(config).length - 2))? ',': '');
+        });
+
+        console.log(config);
+        return config;
+    }
+
 
     return {
         props: {
             affiliate: (context?.query?.affiliate) ?? null,
             tag: (context?.query?.tag) ?? null,
-            siteConfig: getSiteConfig()
+            siteConfig: getSiteConfig(),
+            displayConfig : getDisplayConfig()
         },
     };
 }
