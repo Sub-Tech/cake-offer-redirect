@@ -13,7 +13,7 @@ export default function Home(props) {
 
         return (
             <>
-                <h2 className={styles.offersHeaderText}>Other offers you might like</h2>
+                <h2 className={styles.offersHeaderText}>{props.displayConfig.sub_header}</h2>
                 <div data-adzuki-id={props.siteConfig.adzuki_id}
                      data-adzuki-ads={props.displayConfig.number_of_ads}
                      data-adzuki-top-tags={props.siteConfig.tag}
@@ -49,7 +49,7 @@ d.addEventListener('DOMContentLoaded',function(){(k.adsbyadzuki=k.adsbyadzuki||[
   geo: '${props.siteConfig.geo}',
   reference : 'extrareward4you',
   s3 : '${props.displayConfig.code}',
-  s4 : '${props.siteConfig.affiliate}',
+  ${(props.siteConfig.affiliate) ? "s4 : '" + props.siteConfig.affiliate + "'," : ''}
 })`,
                 }}
             />
@@ -94,8 +94,7 @@ d.addEventListener('DOMContentLoaded',function(){(k.adsbyadzuki=k.adsbyadzuki||[
                             height={200}
                             priority
                         /> : null}
-                    <h2 className={styles.headerText}>This offer may no longer be available or you do not qualify for
-                        it.</h2>
+                    <h2 className={styles.headerText}>{props.displayConfig.main_header}</h2>
 
                 </div>
                 <main className={styles.main}>
@@ -123,7 +122,7 @@ export function getServerSideProps(context) {
             alt: null,
             link: null,
             tag: null,
-            affiliate : (context?.query?.affiliate) ?? null
+            affiliate: (context?.query?.affiliate) ?? null
         }
 
         switch (config.affiliate) {
@@ -193,11 +192,22 @@ export function getServerSideProps(context) {
         const ad_sizes = ['medium_rectangle', 'large_mobile_banner']
         const display_titles = ['1', '0']
         const number_of_ads = ['3', '6', '9', '10', '15']
+        const main_headers = {
+            1: 'We’re sorry, this offer is no longer available.',
+            2: 'This offer may no longer be available or you do not qualify for it.'
+        }
+        const sub_headers = {
+            1: 'Check out more offers below that you may like',
+            2: 'Other offers you might like',
+        }
+
         let config = {
             branding_colour: branding_colours[Math.floor(Math.random() * branding_colours.length)],
             ad_size: ad_sizes[Math.floor(Math.random() * ad_sizes.length)],
             display_title: display_titles[Math.floor(Math.random() * display_titles.length)],
             number_of_ads: number_of_ads[Math.floor(Math.random() * number_of_ads.length)],
+            main_header: Object.keys(main_headers)[ Object.keys(main_headers).length * Math.random() << 0],
+            sub_header: Object.keys(sub_headers)[ Object.keys(sub_headers).length * Math.random() << 0],
             code: ''
         };
 
@@ -212,6 +222,9 @@ export function getServerSideProps(context) {
 
             config.code = config.code + condensedKey + '=' + config[key] + ((index < (Object.keys(config).length - 2)) ? ',' : '');
         });
+
+        config.main_header = main_headers[config.main_header];
+        config.sub_header = sub_headers[config.sub_header];
 
         console.log(config);
         return config;
