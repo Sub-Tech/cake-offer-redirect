@@ -84,7 +84,7 @@ d.addEventListener('DOMContentLoaded',function(){(k.adsbyadzuki=k.adsbyadzuki||[
             />
 
             <div className={styles.body}>
-                <div className={styles.header} style={{backgroundColor: props.displayConfig.branding_colour}}>
+                <div className={styles.header} style={{backgroundColor: '#' + props.displayConfig.branding_colour}}>
                     {(props.siteConfig.logo) ?
                         <Image
                             className={styles.logo}
@@ -104,7 +104,7 @@ d.addEventListener('DOMContentLoaded',function(){(k.adsbyadzuki=k.adsbyadzuki||[
                         Return To Site
                     </a> : null}
                 </main>
-                <div className={styles.footer} style={{backgroundColor: props.displayConfig.branding_colour}}>
+                <div className={styles.footer} style={{backgroundColor: '#' + props.displayConfig.branding_colour}}>
                     <p>Copyright © {new Date().getFullYear()} extrareward4you</p>
                     <p>Owned by Submission Technology Ltd. (04456811)</p>
                 </div>
@@ -189,7 +189,7 @@ export function getServerSideProps(context) {
     }
 
     const getDisplayConfig = () => {
-        const branding_colours = ['#1c99bf', '#1cbf4a', '#bf9e1c', '#5d1cbf', '#bf1c78']
+        const branding_colours = ['1c99bf', '1cbf4a', 'bf9e1c', '5d1cbf', 'bf1c78']
         const ad_sizes = ['medium_rectangle', 'large_mobile_banner']
         const display_titles = ['1', '0']
         const number_of_ads = ['3', '6', '9', '10', '15']
