@@ -167,6 +167,11 @@ export function getServerSideProps(context) {
                 config.link = 'https://producttestingusa.com/';
                 config.tag = 'coreg';
                 break;
+            case '19469': // For Zeropark
+            case '19468': // For Zeropark
+                config.adzuki_id = '19468';
+                config.geo = 'UK';
+                break;
             case '17768':
             case '19410':
             case '16489':
