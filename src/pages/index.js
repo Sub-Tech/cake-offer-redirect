@@ -8,17 +8,23 @@ const poppins = Poppins({weight: ['300', '600'], subsets: []});
 
 export default function Home(props) {
 
+    function getDataTag() {
+        return (props.displayConfig.exclusive) ? `data-adzuki-exclusive="${props.siteConfig.tag}"` : `data-adzuki-top-tags="${props.siteConfig.tag}"`
+    }
+
     const renderAdzuki = () => {
         if (!props.siteConfig.geo) return null;
+
 
         return (
             <>
                 <h2 className={styles.offersHeaderText}>{props.displayConfig.sub_header}</h2>
                 <div data-adzuki-id={props.siteConfig.adzuki_id}
                      data-adzuki-ads={props.displayConfig.number_of_ads}
-                     data-adzuki-top-tags={props.siteConfig.tag}
                      data-adzuki-ad-size={props.displayConfig.ad_size}
                      data-adzuki-with-title-text={(props.displayConfig.display_title === '1') ? '1' : ''}
+                     data-adzuki-exclusive={(props.siteConfig.exclusive) ? props.siteConfig.tag : ''}
+                     data-adzuki-top-tags={(!props.siteConfig.exclusive) ? props.siteConfig.tag : ''}
                 ></div>
             </>
         )
@@ -135,6 +141,7 @@ export function getServerSideProps(context) {
                 config.geo = 'UK';
                 config.link = 'https://cashback.co.uk/';
                 config.tag = 'cashback';
+                config.exclusive = true;
                 break;
             case '18920':
             case '19073' :
@@ -207,8 +214,8 @@ export function getServerSideProps(context) {
             ad_size: ad_sizes[Math.floor(Math.random() * ad_sizes.length)],
             display_title: display_titles[Math.floor(Math.random() * display_titles.length)],
             number_of_ads: number_of_ads[Math.floor(Math.random() * number_of_ads.length)],
-            main_header: Object.keys(main_headers)[ Object.keys(main_headers).length * Math.random() << 0],
-            sub_header: Object.keys(sub_headers)[ Object.keys(sub_headers).length * Math.random() << 0],
+            main_header: Object.keys(main_headers)[Object.keys(main_headers).length * Math.random() << 0],
+            sub_header: Object.keys(sub_headers)[Object.keys(sub_headers).length * Math.random() << 0],
             code: ''
         };
 
