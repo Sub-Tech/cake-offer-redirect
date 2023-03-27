@@ -163,6 +163,7 @@ export function getServerSideProps(context) {
             case '17768':
             case '19410':
             case '16489':
+            case '18844':
             case '18824':
                 config.logo = '/logos/us-product-testing.png';
                 config.adzuki_id = '18824';
