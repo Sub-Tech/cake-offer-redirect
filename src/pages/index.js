@@ -56,6 +56,7 @@ d.addEventListener('DOMContentLoaded',function(){(k.adsbyadzuki=k.adsbyadzuki||[
   reference : 'extrareward4you',
   s3 : '${props.displayConfig.code}',
   ${(props.siteConfig.affiliate) ? "s4 : '" + props.siteConfig.affiliate + "'," : ''}
+  ${(props.siteConfig.s5) ? "s5 : '" + props.siteConfig.s5 + "'," : ''}
 })`,
                 }}
             />
@@ -128,7 +129,8 @@ export function getServerSideProps(context) {
             alt: null,
             link: null,
             tag: null,
-            affiliate: (context?.query?.affiliate) ?? null
+            affiliate: (context?.query?.affiliate) ?? null,
+            s5: (context?.query?.s5) ?? null,
         }
 
         switch (config.affiliate) {
