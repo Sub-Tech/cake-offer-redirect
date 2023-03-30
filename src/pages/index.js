@@ -170,6 +170,7 @@ export function getServerSideProps(context) {
                 config.tag = 'coreg';
                 break;
             case '19469': // For Zeropark
+            case '19477': // For Zeropark
             case '19468': // For Zeropark
                 config.adzuki_id = '19468';
                 config.geo = 'UK';
