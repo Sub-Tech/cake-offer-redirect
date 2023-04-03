@@ -242,7 +242,16 @@ export function getServerSideProps(context) {
         config.main_header = main_headers[config.main_header];
         config.sub_header = sub_headers[config.sub_header];
 
-        console.log(config);
+
+        switch(context?.query?.affiliate) {
+            case '19468':
+            case '19469':
+            case '19477':
+                config.main_header = '';
+                config.sub_header = '';
+                break;
+        }
+
         return config;
     }
 
