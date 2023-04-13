@@ -204,17 +204,35 @@ export function getServerSideProps(context) {
     }
 
     const getDisplayConfig = () => {
-        const branding_colours = ['1c99bf', '1cbf4a', 'bf9e1c', '5d1cbf', 'bf1c78']
-        const ad_sizes = ['medium_rectangle', 'large_mobile_banner']
-        const display_titles = ['1', '0']
-        const number_of_ads = ['3', '6', '9', '10', '15']
+        const branding_colours = [
+            // '1c99bf',
+            // '1cbf4a',
+            // 'bf9e1c',
+            '5d1cbf',
+            // 'bf1c78'
+        ]
+        const ad_sizes = [
+            'medium_rectangle',
+            // 'large_mobile_banner'
+        ]
+        const display_titles = [
+            '1',
+            // '0'
+        ]
+        const number_of_ads = [
+            // '3',
+            '6',
+            '9',
+            '10',
+            // '15'
+        ]
         const main_headers = {
-            1: 'We’re sorry, this offer is no longer available.',
+            // 1: 'We’re sorry, this offer is no longer available.',
             2: 'This offer may no longer be available or you do not qualify for it.'
         }
         const sub_headers = {
             1: 'Check out more offers below that you may like',
-            2: 'Other offers you might like',
+            // 2: 'Other offers you might like',
         }
 
         let config = {
