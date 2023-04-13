@@ -42,22 +42,23 @@ export default function Home(props) {
                     font-family: ${poppins.style.fontFamily};
                   }
                 `}</style>
-
             </Head>
             <Script
                 id="chadzuki2"
                 strategy="beforeInteractive"
                 dangerouslySetInnerHTML={{
                     __html: `;(function(a,d,z,u,k,i){
-i='https://client.getadzuki.com/adzuki-client';d=document;z=d.getElementsByTagName('head')[0];u=d.createElement('script');
-k="noModule" in u;u.async=true;u.src=k?i+'.module.js':i+'.js';z.appendChild(u);k=window;
-d.addEventListener('DOMContentLoaded',function(){(k.adsbyadzuki=k.adsbyadzuki||[]).push(['init', a])})})({
-  geo: '${props.siteConfig.geo}',
-  reference : 'extrareward4you',
-  s3 : '${props.displayConfig.code}',
-  ${(props.siteConfig.affiliate) ? "s4 : '" + props.siteConfig.affiliate + "'," : ''}
-  ${(props.siteConfig.s5) ? "s5 : '" + props.siteConfig.s5 + "'," : ''}
-})`,
+                        i='https://client.getadzuki.com/adzuki-client';d=document;z=d.getElementsByTagName('head')[0];u=d.createElement('script');
+                        k="noModule" in u;u.async=true;u.src=k?i+'.module.js':i+'.js';z.appendChild(u);k=window;
+                        d.addEventListener('DOMContentLoaded',function(){(k.adsbyadzuki=k.adsbyadzuki||[]).push(['init', a])})})({
+                          geo: '${props.siteConfig.geo}',
+                          reference : 'extrareward4you',
+                          s3 : '${props.displayConfig.code}',
+                          utm_source : 'extrareward4you',
+                          ${props.siteConfig.isDefaultAffiliate && props.siteConfig.affiliate ? "utm_medium : '" + props.siteConfig.affiliate + "'," : ''}
+                          ${props.siteConfig.affiliate ? "s4 : '" + props.siteConfig.affiliate + "'," : ''}
+                          ${props.siteConfig.s5 ? "s5 : '" + props.siteConfig.s5 + "'," : ''}
+                    })`,
                 }}
             />
 
@@ -131,6 +132,7 @@ export function getServerSideProps(context) {
             tag: null,
             affiliate: (context?.query?.affiliate) ?? null,
             s5: (context?.query?.s5) ?? null,
+            isDefaultAffiliate: false
         }
 
         switch (config.affiliate) {
@@ -190,11 +192,13 @@ export function getServerSideProps(context) {
                 if (!context?.query?.country || context?.query?.country === 'GB' | context?.query?.country === 'gb' || context?.query?.country === 'UK' || context?.query?.country === 'uk') {
                     config.geo = 'UK';
                     config.adzuki_id = '19464';
+                    config.isDefaultAffiliate = true;
                 }
 
                 if (context?.query?.country === 'US' || context?.query?.country === 'us') {
                     config.geo = 'US';
                     config.adzuki_id = '19465';
+                    config.isDefaultAffiliate = true;
                 }
                 break;
         }
