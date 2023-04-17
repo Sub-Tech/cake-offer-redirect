@@ -225,10 +225,11 @@ export function getServerSideProps(context) {
         ]
         const number_of_ads = [
             // '3',
-            '6',
-            '9',
+            // '6',
+            // '9',
             '10',
-            // '15'
+            '15',
+            '30'
         ]
         const main_headers = {
             // 1: 'We’re sorry, this offer is no longer available.',
