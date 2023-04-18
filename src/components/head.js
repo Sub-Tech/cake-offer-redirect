@@ -23,7 +23,11 @@ export default function GlobalHead({props, adzukiAdSlotReady}) {
                     __html: `;(function(a,d,z,u,k,i){
                         i='https://client.getadzuki.com/adzuki-client';d=document;z=d.getElementsByTagName('head')[0];u=d.createElement('script');
                         k="noModule" in u;u.async=true;u.src=k?i+'.module.js':i+'.js';z.appendChild(u);k=window;
-                        window.adzukiAdSlotReady = ${adzukiAdSlotReady ?? null}
+
+                        window.adzukiAdSlotReady = (ads) => {
+                           window.adzukiGlobalAds = ads
+                        };
+
                         d.addEventListener('DOMContentLoaded',function(){(k.adsbyadzuki=k.adsbyadzuki||[]).push(['init', a])})})({
                           geo: '${props.siteConfig.geo}',
                           noRender: ${props.displayConfig.noRender},
@@ -33,6 +37,7 @@ export default function GlobalHead({props, adzukiAdSlotReady}) {
                           ${props.siteConfig.isDefaultAffiliate && props.siteConfig.affiliate ? "utm_medium : '" + props.siteConfig.affiliate + "'," : ''}
                           ${props.siteConfig.affiliate ? "s4 : '" + props.siteConfig.affiliate + "'," : ''}
                           ${props.siteConfig.s5 ? "s5 : '" + props.siteConfig.s5 + "'," : ''}
+                          noRender: true
                     })`,
                 }}
             />
