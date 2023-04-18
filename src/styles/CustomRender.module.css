@@ -1,0 +1,124 @@
+.body {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+.container {
+    max-width: 100%;
+    width: 960px;
+    margin: 0 auto;
+}
+
+.headerTop {
+    background: #ebebeb;
+    padding: 15px;
+    position: relative;
+}
+
+.headerTopText {
+    text-align: right;
+    color: #6c7582;
+    font-weight: 500;
+    font-size: 14px;
+}
+
+.headerTopLogo {
+    width: 100%;
+    max-width: 200px;
+    border-radius: 0 0 8px 8px;
+    border-color: #ebebeb;
+    border-style: solid;
+    border-width: 0px 4px 4px 4px;
+    background: white;
+    position: absolute;
+    top: 0;
+    padding: 5px 15px 0 15px;
+    z-index: 1;
+}
+
+.headerTopLogoImage {
+    width: 100%;
+    height: auto;
+    filter: invert(48%);
+}
+
+.headerMain {
+    padding: 40px 0;
+    background: #b5ebf4;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+}
+
+.headerMainText {
+    color: #30343c;
+    font-size: 28px;
+    font-weight: 800;
+    display: inline-block;
+    max-width: 550px;
+    z-index: 1;
+    position: relative;
+}
+
+.headerMainCountdownContainer {
+    background: #22b3c9;
+    text-align: center;
+    padding: 6px 0;
+}
+
+.headerMainCountdownText {
+    color: white;
+    font-size: 16px;
+    font-weight: 500;
+}
+
+.headerMainCloudOne {
+    position: absolute;
+    top: -38px;
+    width: 161px;
+    right: 160px;
+    animation: cloudAnimation1 12s infinite 0s ease-in-out;
+}
+
+.headerMainCloudTwo {
+    position: absolute;
+    top: -85px;
+    width: 272px;
+    right: 360px;
+    animation: cloudAnimation2 17s infinite 2s ease-in-out;
+}
+
+.headerMainCloudThree {
+    position: absolute;
+    top: -45px;
+    left: 0px;
+    width: 216px;
+    animation: cloudAnimation2 17s infinite 2s ease-in-out;
+}
+
+.headerMainCloudFour {
+    position: absolute;
+    top: -94px;
+    left: 330px;
+    width: 269px;
+    animation: cloudAnimation2 17s infinite 2s ease-in-out;
+}
+
+@keyframes cloudAnimation1 {
+    0% {
+        transform: translate(0) translateZ(0);
+    }
+    50% {
+        transform: translate(-45px) translateZ(0);
+    }
+}
+
+@keyframes cloudAnimation2 {
+    0% {
+        transform: translate(0) translateZ(0);
+    }
+    50% {
+        transform: translate(75px) translateZ(0);
+    }
+}
