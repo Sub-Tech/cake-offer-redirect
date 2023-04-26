@@ -26,7 +26,7 @@ export default function CustomRenderVersion(props) {
             console.log(ad);
 
             return (
-                <div key={index} className={styles.offerCardContainer}>
+                <a key={index} className={styles.offerCardContainer} href={ad.url}>
                     <div className={styles.offerCard}>
                         <div>
                             {/*{ad.nodeImageWithLinkElement}*/}
@@ -54,7 +54,7 @@ export default function CustomRenderVersion(props) {
                             </div>
                         </div>
                     </div>
-                </div>
+                </a>
             )
         })
     }
