@@ -6,7 +6,7 @@
 
 .container {
     max-width: 100%;
-    width: 960px;
+    width: 1292px;
     margin: 0 auto;
 }
 
@@ -44,8 +44,7 @@
 }
 
 .headerMain {
-    padding: 40px 0;
-    background: #b5ebf4;
+    background: #ddccf7;
     text-align: center;
     position: relative;
     overflow: hidden;
@@ -56,15 +55,27 @@
     font-size: 28px;
     font-weight: 800;
     display: inline-block;
-    max-width: 550px;
+    max-width: 800px;
+    z-index: 1;
+    position: relative;
+}
+
+.headerSubText {
+    color: #30343c;
+    font-size: 28px;
+    font-weight: 800;
+    display: inline-block;
+    max-width: 500px;
     z-index: 1;
     position: relative;
 }
 
 .headerMainCountdownContainer {
-    background: #22b3c9;
+    background: #5d1cbf;
     text-align: center;
     padding: 6px 0;
+    box-shadow: 0 4px 8px #00000029;
+    margin-bottom: 40px;
 }
 
 .headerMainCountdownText {
@@ -105,20 +116,177 @@
     animation: cloudAnimation2 17s infinite 2s ease-in-out;
 }
 
-@keyframes cloudAnimation1 {
-    0% {
-        transform: translate(0) translateZ(0);
-    }
-    50% {
-        transform: translate(-45px) translateZ(0);
+
+.offersContainer {
+    gap: 32px;
+    grid-template-columns: repeat(4,300px);
+    margin: 0 0 32px;
+    display: grid;
+    justify-content: center;
+}
+
+.offerCardContainer {
+    /*width: 25%;*/
+    /*padding: 15px;*/
+}
+
+.offerCard {
+    position: relative;
+    box-shadow: 0 2px 4px #00000030;
+    /*display: flex;*/
+    /*flex-direction: column;*/
+    overflow: hidden;
+    width: 100%;
+    height: 100%;
+    background: #FFFFFF;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: box-shadow .3s ease-in-out;
+}
+.offerCard:hover {
+    box-shadow: 0 8px 16px #00000029;
+}
+
+.offerCardBody {
+    padding: 15px;
+}
+
+.offerCardTitle {
+    color: #002445;
+    font-size: 16px;
+    font-weight: 500;
+    line-height: 20px;
+    margin-bottom: 8px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    width: 100%;
+}
+
+.offerCardSubTitle {
+    font-size: 15px;
+    color: #6c7582;
+    font-weight: 400;
+    line-height: 18px;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    width: 100%;
+    white-space: nowrap;
+    margin-bottom: 16px;
+}
+
+.offerCardImage {
+    width: 100%;
+    height: auto;
+}
+.offerCardButtonContainer {
+    display: flex;
+    flex-direction: row;
+}
+.offerCardButton {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color:white;
+    background: #F98128;
+    border-radius: 4px;
+    text-align: center;
+    font-size: 15px;
+    padding: 14px;
+    flex-grow: 1;
+}
+.offerCardInfoButton {
+    border-radius: 4px;
+    border: 1px solid #CCCCCC;
+    width:58px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-right: 10px;
+    transition: border-color .4s,background-color .4s;
+}
+.offerCardInfoButton:hover {
+    border: 1px solid #FF4400;
+    background: #FFEFE0;
+}
+
+
+
+.headerMainTreeRight {
+    position: absolute;
+    bottom: 0;
+    height: 100%;
+    right: 0;
+    animation: CustomRender_cloudAnimation2__3gqvq 17s infinite 2s ease-in-out;
+}
+
+.headerMainCactusLeft {
+    position: absolute;
+    bottom: 0;
+    height: 100%;
+    left: 0;
+    animation: CustomRender_cloudAnimation2__3gqvq 17s infinite 2s ease-in-out;
+}
+
+@media (max-width: 1550px) {
+    .offersContainer {
+        grid-template-columns: repeat(3, 300px);
     }
 }
 
-@keyframes cloudAnimation2 {
-    0% {
-        transform: translate(0) translateZ(0);
+@media (max-width: 1100px) {
+    .offersContainer {
+        grid-template-columns: repeat(3, 250px);
     }
-    50% {
-        transform: translate(75px) translateZ(0);
+}
+@media (max-width: 850px) {
+    .offersContainer {
+        grid-template-columns: repeat(2, 300px);
+    }
+    .headerMainCactusLeft {
+        display: none;
+    }
+    .headerMainTreeRight {
+        display: none;
+    }
+    .headerMainText{
+        font-size: 18px;
+    }
+    .headerSubText {
+        font-size: 18px;
+    }
+    .headerTopText {
+        display: none;
+    }
+    .headerTopLogo {
+        left:50%;
+        transform:translate(-50%, 0);
+    }
+}
+@media (max-width: 670px) {
+    .offersContainer {
+        grid-template-columns: repeat(1, 100%);
+    }
+    .offersContainer {
+        gap: 5px;
+    }
+    .headerMainCountdownContainer {
+        margin-bottom: 10px;
+    }
+    .offerCard {
+        display: flex;
+        border-radius: 0;
+        padding-right: 15px;
+        align-items: center;
+    }
+    .offerCardImage {
+        width:30%;
+        margin-left: 15px;
+    }
+    .offerCardBody {
+        width:70%;
+        margin-right: 10px;
     }
 }

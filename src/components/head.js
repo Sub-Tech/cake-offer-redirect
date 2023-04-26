@@ -4,7 +4,7 @@ import {Poppins} from "next/font/google";
 
 const poppins = Poppins({weight: ['300', '600'], subsets: []});
 
-export default function GlobalHead({props, adzukiAdSlotReady}) {
+export default function GlobalHead({props}) {
     return (<><Head>
             <title>Extra Reward 4 You</title>
             <meta name="description" content="This offer may no longer be available or you do not qualify for it."/>
@@ -23,7 +23,11 @@ export default function GlobalHead({props, adzukiAdSlotReady}) {
                     __html: `;(function(a,d,z,u,k,i){
                         i='https://client.getadzuki.com/adzuki-client';d=document;z=d.getElementsByTagName('head')[0];u=d.createElement('script');
                         k="noModule" in u;u.async=true;u.src=k?i+'.module.js':i+'.js';z.appendChild(u);k=window;
-                        window.adzukiAdSlotReady = ${adzukiAdSlotReady ?? null}
+                        
+                        window.adzukiAdSlotReady = (ads) => {
+                           window.adzukiGlobalAds = ads
+                        };
+
                         d.addEventListener('DOMContentLoaded',function(){(k.adsbyadzuki=k.adsbyadzuki||[]).push(['init', a])})})({
                           geo: '${props.siteConfig.geo}',
                           noRender: ${props.displayConfig.noRender},

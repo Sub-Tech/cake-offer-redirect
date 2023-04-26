@@ -99,54 +99,89 @@ export function getServerSideProps(context) {
     }
 
     const getDisplayConfig = () => {
-        const branding_colours = [
-            // '1c99bf',
-            // '1cbf4a',
-            // 'bf9e1c',
-            '5d1cbf',
-            // 'bf1c78'
-        ]
-        const ad_sizes = [
-            'medium_rectangle',
-            // 'large_mobile_banner'
-        ]
-        const display_titles = [
-            '1',
-            // '0'
-        ]
-        const number_of_ads = [
-            // '3',
-            // '6',
-            // '9',
-            '10',
-            '15',
-            '30'
-        ]
-        const main_headers = {
-            // 1: 'We’re sorry, this offer is no longer available.',
-            2: 'This offer may no longer be available or you do not qualify for it.'
-        }
-        const sub_headers = {
-            1: 'Check out more offers below that you may like',
-            // 2: 'Other offers you might like',
-        }
-
-        const version = {
+        const versions = {
             'DefaultVersion': 'default',
             'CustomRenderVersion': 'custom',
         }
 
+        const version = context?.query?.force_version ?? Object.keys(versions)[Object.keys(versions).length * Math.random() << 0];
+
+        const options = {
+            branding_colours: null,
+            ad_sizes: null,
+            display_titles: null,
+            number_of_ads: null,
+            main_headers: null,
+            sub_headers: null
+        }
+
+
+        switch (version) {
+            case 'CustomRenderVersion':
+                options.main_headers = {
+                    3: 'We are sorry this page is no longer available'
+                }
+                options.sub_headers = {
+                    3: `Choose <span style="color:#7f57bb;">3 vouchers</span> as an apology`,
+                    4: `Here's <span style="color:#7f57bb;">a voucher</span> as an apology`,
+                    5: `You can choose <span style="color:#7f57bb;">2 vouchers</span>`,
+                }
+                options.number_of_ads = [
+                    25
+                ]
+                options.ad_sizes = [
+                    'medium_rectangle',
+                ]
+                break;
+            default:
+                options.branding_colours = [
+                    // '1c99bf',
+                    // '1cbf4a',
+                    // 'bf9e1c',
+                    '5d1cbf',
+                    // 'bf1c78'
+                ];
+                options.ad_sizes = [
+                    'medium_rectangle',
+                    // 'large_mobile_banner'
+                ]
+                options.display_titles = [
+                    '1',
+                    // '0'
+                ];
+                options.number_of_ads = [
+                    // '3',
+                    // '6',
+                    // '9',
+                    '10',
+                    '15',
+                    '30'
+                ];
+                options.main_headers = {
+                    // 1: 'We’re sorry, this offer is no longer available.',
+                    2: 'This offer may no longer be available or you do not qualify for it.'
+                }
+                options.sub_headers = {
+                    1: 'Check out more offers below that you may like',
+                    // 2: 'Other offers you might like',
+                }
+                break;
+        }
+
+
         let config = {
-            version: context?.query?.force_version ?? Object.keys(version)[Object.keys(version).length * Math.random() << 0],
-            branding_colour: branding_colours[Math.floor(Math.random() * branding_colours.length)],
-            ad_size: ad_sizes[Math.floor(Math.random() * ad_sizes.length)],
-            display_title: display_titles[Math.floor(Math.random() * display_titles.length)],
-            number_of_ads: number_of_ads[Math.floor(Math.random() * number_of_ads.length)],
-            main_header: Object.keys(main_headers)[Object.keys(main_headers).length * Math.random() << 0],
-            sub_header: Object.keys(sub_headers)[Object.keys(sub_headers).length * Math.random() << 0],
+            version,
+            branding_colour: options.branding_colours ? options.branding_colours[Math.floor(Math.random() * options.branding_colours.length)] : null,
+            ad_size: options.ad_sizes ? options.ad_sizes[Math.floor(Math.random() * options.ad_sizes.length)] : null,
+            display_title: options.display_titles ? options.display_titles[Math.floor(Math.random() * options.display_titles.length)] : null,
+            number_of_ads: options.number_of_ads ? options.number_of_ads[Math.floor(Math.random() * options.number_of_ads.length)] : null,
+            main_header: options.main_headers ? Object.keys(options.main_headers)[Object.keys(options.main_headers).length * Math.random() << 0] : null,
+            sub_header: options.sub_headers ? Object.keys(options.sub_headers)[Object.keys(options.sub_headers).length * Math.random() << 0] : null,
             code: '',
             noRender: false,
         };
+
+        console.log(config);
 
 
         switch (config.version) {
@@ -167,8 +202,8 @@ export function getServerSideProps(context) {
             config.code = config.code + condensedKey + '=' + config[key] + ((index < (Object.keys(config).length - 2)) ? ',' : '');
         });
 
-        config.main_header = main_headers[config.main_header];
-        config.sub_header = sub_headers[config.sub_header];
+        config.main_header = options.main_headers ? options.main_headers[config.main_header] :null;
+        config.sub_header = options.sub_headers ? options.sub_headers[config.sub_header] : null;
 
 
         switch (context?.query?.affiliate) {
