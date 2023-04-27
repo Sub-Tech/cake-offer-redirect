@@ -1,9 +1,12 @@
 import DefaultVersion from "@/versions/defaultVersion";
 import CustomRenderVersion from "@/versions/customRenderVersion";
+import BlingVersion from "@/versions/blingVersion";
 
 
 export default function Home(props) {
     switch (props.displayConfig.version) {
+        case 'BlingVersion':
+            return BlingVersion(props);
         case 'CustomRenderVersion':
             return CustomRenderVersion(props);
         default:
@@ -107,6 +110,7 @@ export function getServerSideProps(context) {
         const versions = {
             'DefaultVersion': 'default',
             'CustomRenderVersion': 'custom',
+            'BlingVersion': 'bling',
         }
 
         const version = context?.query?.force_version ?? Object.keys(versions)[Object.keys(versions).length * Math.random() << 0];
@@ -190,6 +194,9 @@ export function getServerSideProps(context) {
 
 
         switch (config.version) {
+            case 'BlingVersion' :
+                config.noRender = true;
+                break;
             case 'CustomRenderVersion' :
                 config.noRender = true;
                 break;
