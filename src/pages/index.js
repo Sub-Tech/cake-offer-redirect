@@ -79,6 +79,11 @@ export function getServerSideProps(context) {
                 config.link = 'https://usproducttesting.com/';
                 config.tag = 'coreg';
                 break;
+            case '19425':
+                config.geo = 'US';
+                config.adzuki_id = '19465';
+                config.isDefaultAffiliate = true;
+                break;
             default:
                 if (!context?.query?.country || context?.query?.country === 'GB' | context?.query?.country === 'gb' || context?.query?.country === 'UK' || context?.query?.country === 'uk') {
                     config.geo = 'UK';
