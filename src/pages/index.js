@@ -108,9 +108,9 @@ export function getServerSideProps(context) {
 
     const getDisplayConfig = () => {
         const versions = {
-            'DefaultVersion': 'default',
+            // 'DefaultVersion': 'default',
             'CustomRenderVersion': 'custom',
-            'BlingVersion': 'bling',
+            // 'BlingVersion': 'bling',
         }
 
         const version = context?.query?.force_version ?? Object.keys(versions)[Object.keys(versions).length * Math.random() << 0];

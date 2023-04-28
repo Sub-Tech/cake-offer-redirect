@@ -4,7 +4,7 @@ import Image from "next/image";
 import Countdown, {zeroPad} from "react-countdown";
 import {useEffect, useState} from "react";
 import {Container, Row, Col} from 'react-grid-system';
-import Offer from '../components/offer';
+import OfferCard from '../components/offerCard';
 
 const observable = {};
 export default function BlingVersion(props) {
