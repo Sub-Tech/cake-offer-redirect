@@ -128,3 +128,64 @@
     display: grid;
     justify-content: center;
 }
+
+@media (max-width: 1550px) {
+    .offersContainer {
+        grid-template-columns: repeat(3, 300px);
+    }
+}
+
+@media (max-width: 1100px) {
+    .offersContainer {
+        grid-template-columns: repeat(3, 250px);
+    }
+}
+@media (max-width: 850px) {
+    .offersContainer {
+        grid-template-columns: repeat(2, 300px);
+    }
+    .headerMainCactusLeft {
+        display: none;
+    }
+    .headerMainTreeRight {
+        display: none;
+    }
+    .headerMainText{
+        font-size: 18px;
+    }
+    .headerSubText {
+        font-size: 18px;
+    }
+    .headerTopText {
+        display: none;
+    }
+    .headerTopLogo {
+        left:50%;
+        transform:translate(-50%, 0);
+    }
+}
+@media (max-width: 670px) {
+    .offersContainer {
+        grid-template-columns: repeat(1, 100%);
+    }
+    .offersContainer {
+        gap: 5px;
+    }
+    .headerMainCountdownContainer {
+        margin-bottom: 10px;
+    }
+    .offerCard {
+        display: flex;
+        border-radius: 0;
+        padding-right: 15px;
+        align-items: center;
+    }
+    .offerCardImage {
+        width:30%;
+        margin-left: 15px;
+    }
+    .offerCardBody {
+        width:70%;
+        margin-right: 10px;
+    }
+}

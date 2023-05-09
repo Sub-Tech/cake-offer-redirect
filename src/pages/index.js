@@ -31,6 +31,17 @@ export function getServerSideProps(context) {
 
         switch (config.affiliate) {
             // UK Sites
+            case '19211':
+            case '12':
+            case '19191':
+            case '19212':
+            case '19463':
+                config.logo = '/logos/free-club-uk.png';
+                config.adzuki_id = '19463'
+                config.geo = 'UK';
+                config.link = 'https://freeclub.co.uk/';
+                config.exclusive = true;
+                break;
             case '19229':
             case '17739':
             case '19304':
@@ -110,7 +121,7 @@ export function getServerSideProps(context) {
         const versions = {
             'DefaultVersion': 'default',
             'CustomRenderVersion': 'custom',
-            'BlingVersion': 'bling',
+            // 'BlingVersion': 'bling',
         }
 
         const version = context?.query?.force_version ?? Object.keys(versions)[Object.keys(versions).length * Math.random() << 0];
