@@ -15,7 +15,8 @@ export default function BlingVersion(props) {
 
     function renderAds() {
         return adSlotAds.map((ad) => (
-            <AdzukiAdLink ad={ad}>
+            <AdzukiAd ad={ad} key={ad.offer_id}>
+                <AdzukiAdLink ad={ad}>
 
                 <span className={styles.offerCardContainer}>
                     <div className={styles.offerCard}>
@@ -42,7 +43,8 @@ export default function BlingVersion(props) {
                         </div>
                     </div>
                 </span>
-            </AdzukiAdLink>
+                </AdzukiAdLink>
+            </AdzukiAd>
         ))
     }
 
