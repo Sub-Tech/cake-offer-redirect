@@ -1,16 +1,16 @@
 import DefaultVersion from "@/versions/defaultVersion";
 import CustomRenderVersion from "@/versions/customRenderVersion";
-import BlingVersion from "@/versions/blingVersion";
+import BoldVersion from "@/versions/boldVersion";
 
 
 export default function Home(props) {
     switch (props.displayConfig.version) {
-        case 'BlingVersion':
-            return BlingVersion(props);
+        case 'BoldVersion':
+            return BoldVersion(props);
         case 'CustomRenderVersion':
             return CustomRenderVersion(props);
         default:
-            return DefaultVersion(props);
+            return CustomRenderVersion(props);
     }
 }
 
@@ -118,13 +118,21 @@ export function getServerSideProps(context) {
     }
 
     const getDisplayConfig = () => {
+        // Default lander is always the top version
         const versions = {
-            'DefaultVersion': 'default',
             'CustomRenderVersion': 'custom',
-            // 'BlingVersion': 'bling',
+            // 'BoldVersion': 'bold',
         }
 
-        const version = context?.query?.force_version ?? Object.keys(versions)[Object.keys(versions).length * Math.random() << 0];
+        const splitPercentage = 5; // How much traffic we will send off from the default lander : 5 = 20%, 10 = 10%
+
+        let version = Object.keys(versions)[0]; // Default lander
+
+        if(context?.query?.force_version) {
+            version = context?.query?.force_version;
+        } else if (Math.floor(Math.random() * splitPercentage) === 1) { // Split 10% of the traffic off to test with
+            version = Object.keys(versions)[Object.keys(versions).length * Math.random() << 0];
+        }
 
         const options = {
             branding_colours: null,
@@ -135,7 +143,6 @@ export function getServerSideProps(context) {
             sub_headers: null
         }
 
-
         switch (version) {
             case 'CustomRenderVersion':
                 options.main_headers = {
@@ -143,8 +150,6 @@ export function getServerSideProps(context) {
                 }
                 options.sub_headers = {
                     3: `Choose <span style="color:#7f57bb;">3 vouchers</span> as an apology`,
-                    4: `Here's <span style="color:#7f57bb;">a voucher</span> as an apology`,
-                    5: `You can choose <span style="color:#7f57bb;">2 vouchers</span>`,
                 }
                 options.number_of_ads = [
                     25
@@ -154,37 +159,12 @@ export function getServerSideProps(context) {
                 ]
                 break;
             default:
-                options.branding_colours = [
-                    // '1c99bf',
-                    // '1cbf4a',
-                    // 'bf9e1c',
-                    '5d1cbf',
-                    // 'bf1c78'
-                ];
-                options.ad_sizes = [
-                    'medium_rectangle',
-                    // 'large_mobile_banner'
-                ]
-                options.display_titles = [
-                    '1',
-                    // '0'
-                ];
-                options.number_of_ads = [
-                    // '3',
-                    // '6',
-                    // '9',
-                    '10',
-                    '15',
-                    '30'
-                ];
-                options.main_headers = {
-                    // 1: 'We’re sorry, this offer is no longer available.',
-                    2: 'This offer may no longer be available or you do not qualify for it.'
-                }
-                options.sub_headers = {
-                    1: 'Check out more offers below that you may like',
-                    // 2: 'Other offers you might like',
-                }
+                options.branding_colours = ['5d1cbf'];
+                options.ad_sizes = ['medium_rectangle']
+                options.display_titles = ['1'];
+                options.number_of_ads = ['25'];
+                options.main_headers = { 3: 'We are sorry this page is no longer available'}
+                options.sub_headers = {3: `Choose <span style="color:#7f57bb;">3 vouchers</span> as an apology`}
                 break;
         }
 
@@ -201,20 +181,9 @@ export function getServerSideProps(context) {
             noRender: false,
         };
 
-        console.log(config);
-
-
-        switch (config.version) {
-            case 'BlingVersion' :
-                config.noRender = true;
-                break;
-            case 'CustomRenderVersion' :
-                config.noRender = true;
-                break;
-        }
 
         Object.keys(config).forEach((key, index) => {
-            if (key === 'code' || key === 'noRender') {
+            if (key === 'code') {
                 return;
             }
             let condensedKey = key.split('_').map((item) => {
@@ -225,7 +194,7 @@ export function getServerSideProps(context) {
             config.code = config.code + condensedKey + '=' + config[key] + ((index < (Object.keys(config).length - 2)) ? ',' : '');
         });
 
-        config.main_header = options.main_headers ? options.main_headers[config.main_header] :null;
+        config.main_header = options.main_headers ? options.main_headers[config.main_header] : null;
         config.sub_header = options.sub_headers ? options.sub_headers[config.sub_header] : null;
 
 

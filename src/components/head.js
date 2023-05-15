@@ -16,31 +16,6 @@ export default function GlobalHead({props}) {
               }
             `}</style>
         </Head>
-            <Script
-                id="chadzuki2"
-                strategy="beforeInteractive"
-                dangerouslySetInnerHTML={{
-                    __html: `;(function(a,d,z,u,k,i){
-                        i='https://client.getadzuki.com/adzuki-client';d=document;z=d.getElementsByTagName('head')[0];u=d.createElement('script');
-                        k="noModule" in u;u.async=true;u.src=k?i+'.module.js':i+'.js';z.appendChild(u);k=window;
-                        
-                        window.adzukiAdSlotReady = (ads) => {
-                           window.adzukiGlobalAds = ads
-                        };
-
-                        d.addEventListener('DOMContentLoaded',function(){(k.adsbyadzuki=k.adsbyadzuki||[]).push(['init', a])})})({
-                          geo: '${props.siteConfig.geo}',
-                          noRender: ${props.displayConfig.noRender},
-                          reference : 'extrareward4you',
-                          s3 : '${props.displayConfig.code}',
-                          utm_source : 'extrareward4you',
-                          ${props.siteConfig.isDefaultAffiliate && props.siteConfig.affiliate ? "utm_medium : '" + props.siteConfig.affiliate + "'," : ''}
-                          ${props.siteConfig.affiliate ? "s4 : '" + props.siteConfig.affiliate + "'," : ''}
-                          ${props.siteConfig.s5 ? "s5 : '" + props.siteConfig.s5 + "'," : ''}
-                    })`,
-                }}
-            />
-
             <Script strategy="beforeInteractive"
                     src="https://www.googletagmanager.com/gtag/js?id=G-8VWVQFXWCF"></Script>
             <Script
