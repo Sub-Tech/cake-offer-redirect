@@ -6,28 +6,8 @@ import {AdzukiAd, AdzukiAdLink, useAdzuki} from "adzuki-client-react";
 import Markdown from "markdown-to-jsx";
 
 export default function CustomRenderVersion(props) {
-    const config = {
-        reference: 'extrareward4you',
-        geo: props.siteConfig.geo,
-        adzukiId: props.siteConfig.adzuki_id,
-        maxAds: props.displayConfig.number_of_ads,
-        s3: props.displayConfig.code || "",
-        s4: props.siteConfig.affiliate || "",
-        s5: props.siteConfig.s5 || "",
-        utm_source : 'extrareward4you',
-    }
-    if (props.siteConfig.isDefaultAffiliate && props.siteConfig.affiliate) {
-        config.utm_medium = props.siteConfig.affiliate
-    }
-    if (props.siteConfig.exclusive && props.siteConfig.tag) {
-        config.exclusiveTags = [props.siteConfig.tag]
-    }
 
-    if (! props.siteConfig.exclusive && props.siteConfig.tag) {
-        config.preferTags = [props.siteConfig.tag]
-    }
-
-    const { adSlotAds } = useAdzuki(config);
+    const {adSlotAds} = useAdzuki(props.config);
 
     function renderAds() {
         return adSlotAds.map((ad) =>
@@ -37,9 +17,9 @@ export default function CustomRenderVersion(props) {
                         <div className={styles.offerCard}>
                             <img src={ad.image} alt={ad.lead_text} className={styles.offerCardImage}/>
                             <div className={styles.offerCardBody}>
-                                <h2 className={styles.offerCardTitle}>{ad.crender_title}</h2>
+                                <h2 className={styles.offerCardTitle}>{ad.crender_title || ad.lead_text || ""}</h2>
                                 <div className={styles.offerCardSubTitle}>
-                                    <Markdown>{ad.crender_description_md||ad.lead_text||""}</Markdown>
+                                    <Markdown>{ad.crender_description_md || "Click to grab this deal"}</Markdown>
                                 </div>
 
                                 <div className={styles.offerCardButtonContainer}>

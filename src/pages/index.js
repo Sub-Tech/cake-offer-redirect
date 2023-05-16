@@ -124,13 +124,13 @@ export function getServerSideProps(context) {
             // 'BoldVersion': 'bold',
         }
 
-        const splitPercentage = 5; // How much traffic we will send off from the default lander : 5 = 20%, 10 = 10%
+        const splitPercentage = 1; // How much traffic we will send off from the default lander : 4 = 25%, 5 = 20%, 10 = 10%
 
         let version = Object.keys(versions)[0]; // Default lander
 
-        if(context?.query?.force_version) {
+        if (context?.query?.force_version) {
             version = context?.query?.force_version;
-        } else if (Math.floor(Math.random() * splitPercentage) === 1) { // Split 10% of the traffic off to test with
+        } else if (Math.floor(Math.random() * splitPercentage) === 1) { // Split the traffic off to test with
             version = Object.keys(versions)[Object.keys(versions).length * Math.random() << 0];
         }
 
@@ -163,7 +163,7 @@ export function getServerSideProps(context) {
                 options.ad_sizes = ['medium_rectangle']
                 options.display_titles = ['1'];
                 options.number_of_ads = ['25'];
-                options.main_headers = { 3: 'We are sorry this page is no longer available'}
+                options.main_headers = {3: 'We are sorry this page is no longer available'}
                 options.sub_headers = {3: `Choose <span style="color:#7f57bb;">3 vouchers</span> as an apology`}
                 break;
         }
@@ -210,13 +210,109 @@ export function getServerSideProps(context) {
         return config;
     }
 
+    function formatDateOrNull(dateString) {
+        try {
+            const date = new Date(dateString);
+            if (isNaN(date)) {
+                return null;
+            }
+            const year = date.getFullYear();
+            const month = String(date.getMonth() + 1).padStart(2, "0");
+            const day = String(date.getDate()).padStart(2, "0");
+            return `${year}-${month}-${day}`;
+        } catch (error) {
+            return null;
+        }
+    }
+
+    const getPrePopData = () => {
+        const data = [];
+
+        let possibilities = [
+            {'key' : 'dob', 'value' : ['dob', 'd_o_b', 'date_of_birth', 'd-o-b', 'date-of-birth']},
+            {'key' : 'age', 'value' : ['age']},
+            {'key' : 'gender', 'value' : ['gender', 'g']},
+            {'key' : 'firstName', 'value' : ['firstName', 'first_name', 'firstname', 'fname', 'name', 'f_name']},
+            {'key' : 'lastName', 'value' : ['lastName', 'last_name', 'lastname', 'lname', 'l_name']},
+            {'key' : 'email', 'value' : ['email', 'email_address', 'email-address', 'e-mail']},
+            {'key' : 'city', 'value' : ['city', 'address_city']},
+            {'key' : 'state', 'value' : ['county']},
+            {'key' : 'zipcode', 'value' :  ['zip', 'zip_code', 'zip_code', 'postcode', 'post_code', 'pcode', 'postal_code']},
+            {'key' : 'phone', 'value' :  ['phone', 'tel', 'mob', 'mobile', 'tell', 'telephone']},
+        ];
+
+        possibilities.forEach((possibility) => {
+            const key = possibility.key;
+            let value = null;
+            possibility.value.forEach((key) => {
+                if(value){
+                    return;
+                }
+                if(context?.query[key]){
+                    value = context?.query[key];
+                }
+            });
+            if(key && value) {
+                data[key] = value;
+            }
+        });
+
+        if(data['dob']) {
+            data['dob'] = formatDateOrNull(data['dob']);
+            if(!data['dob']) {
+                delete data['dob'];
+            }
+        }
+
+        if(data['gender']){
+            if(['M', 'male', 'm'].includes(data['gender'])) {
+                data['gender'] = 'male';
+            } else if(['F', 'female', 'f'].includes(data['gender'])) {
+                data['gender'] = 'female';
+            } else {
+                delete data['gender'];
+            }
+        }
+
+        return data;
+    }
+
+    const prePopData = getPrePopData();
+    const siteConfig = getSiteConfig();
+    const displayConfig = getDisplayConfig();
+
+    const config = {
+        reference: 'extrareward4you',
+        geo: siteConfig.geo,
+        adzukiId: siteConfig.adzuki_id,
+        maxAds: displayConfig.number_of_ads,
+        s3: displayConfig.code || "",
+        s4: siteConfig.affiliate || "",
+        s5: siteConfig.s5 || "",
+        utm_source: 'extrareward4you',
+        ...prePopData
+    }
+
+    if (siteConfig.isDefaultAffiliate && siteConfig.affiliate) {
+        config.utm_medium = siteConfig.affiliate
+    }
+    if (siteConfig.exclusive && siteConfig.tag) {
+        config.exclusiveTags = [siteConfig.tag]
+    }
+
+    if (!siteConfig.exclusive && siteConfig.tag) {
+        config.preferTags = [siteConfig.tag]
+    }
+
+    console.log(config);
 
     return {
         props: {
             affiliate: (context?.query?.affiliate) ?? null,
             tag: (context?.query?.tag) ?? null,
-            siteConfig: getSiteConfig(),
-            displayConfig: getDisplayConfig(),
+            siteConfig: siteConfig,
+            displayConfig: displayConfig,
+            config: config
         },
     };
 }
