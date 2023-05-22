@@ -1,12 +1,30 @@
 import DefaultVersion from "@/versions/defaultVersion";
 import CustomRenderVersion from "@/versions/customRenderVersion";
 import BoldVersion from "@/versions/boldVersion";
+import LocationVersion from "@/versions/locationVersion";
+import axios from "axios";
+import {useEffect, useState} from "react";
 
 
 export default function Home(props) {
+    let [location, setLocation] = useState({});
+
+    useEffect(() => {
+        try {
+            axios.get('https://ships.stechga.co.uk/')
+                .then(function (response) {
+                    setLocation(response.data);
+                })
+        } catch (e) {
+            console.log('Could not find location')
+        }
+    }, [])
+
     switch (props.displayConfig.version) {
         case 'BoldVersion':
             return BoldVersion(props);
+        case 'LocationVersion':
+            return LocationVersion(props, location);
         case 'CustomRenderVersion':
             return CustomRenderVersion(props);
         default:
@@ -117,21 +135,31 @@ export function getServerSideProps(context) {
         return config;
     }
 
+    function randomBetween(min, max) { // min and max included
+        return Math.floor(Math.random() * (max - min + 1) + min)
+    }
+
     const getDisplayConfig = () => {
         // Default lander is always the top version
         const versions = {
             'CustomRenderVersion': 'custom',
+            'LocationVersion': 'custom',
             // 'BoldVersion': 'bold',
         }
 
-        const splitPercentage = 1; // How much traffic we will send off from the default lander : 4 = 25%, 5 = 20%, 10 = 10%
+        const splitPercentage = 20; // How much traffic we will send off from the default lander : 4 = 25%, 5 = 20%, 10 = 10%
 
         let version = Object.keys(versions)[0]; // Default lander
 
+        console.log('here')
         if (context?.query?.force_version) {
             version = context?.query?.force_version;
-        } else if (Math.floor(Math.random() * splitPercentage) === 1) { // Split the traffic off to test with
-            version = Object.keys(versions)[Object.keys(versions).length * Math.random() << 0];
+        } else if (randomBetween(1, 100) <= splitPercentage) { // Split the traffic off to test with
+            if(Object.keys(versions).length === 1){
+                version = Object.keys(versions)[0]
+            } else {
+                version = Object.keys(versions)[Object.keys(versions).length * Math.random() << 0];
+            }
         }
 
         const options = {
@@ -304,15 +332,14 @@ export function getServerSideProps(context) {
         config.preferTags = [siteConfig.tag]
     }
 
-    console.log(config);
-
     return {
         props: {
             affiliate: (context?.query?.affiliate) ?? null,
             tag: (context?.query?.tag) ?? null,
             siteConfig: siteConfig,
             displayConfig: displayConfig,
-            config: config
+            config: config,
+            location : {}
         },
     };
 }
