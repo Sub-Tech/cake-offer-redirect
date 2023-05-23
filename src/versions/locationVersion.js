@@ -75,9 +75,9 @@ export default function LocationVersion(props, location) {
                             <img src={"/images/customRender/own/cactus.png"}
                                  className={styles.headerMainCactusLeft}/>
                             <h2 className={styles.headerMainText}
-                                dangerouslySetInnerHTML={{__html: 'People near <span style="color:#7f57bb;">' + ((location.city)? location.city : "you") + '</span> can'}}></h2><br/>
+                                dangerouslySetInnerHTML={{__html: 'We are sorry this page is no longer available'}}></h2><br/>
                             <h3 className={styles.headerSubText}
-                                dangerouslySetInnerHTML={{__html: 'Choose <span style="color:#7f57bb;"> 3 vouchers</span> for FREE'}}></h3>
+                                dangerouslySetInnerHTML={{__html: 'As you are near <span style="color:#7f57bb;">' + ((location.city)? location.city : "you") + '</span> you can choose <span style="color:#7f57bb;"> 3 vouchers</span> for FREE'}}></h3>
                         </div>
                     </div>
                     <div className={styles.headerMainCountdownContainer}>
