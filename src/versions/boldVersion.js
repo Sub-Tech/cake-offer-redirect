@@ -6,6 +6,8 @@ import {AdzukiAd, AdzukiAdLink, useAdzuki} from 'adzuki-client-react'
 import Markdown from 'markdown-to-jsx';
 
 export default function BoldVersion(props) {
+    const config = {...props.config}
+
     const {adSlotAds} = useAdzuki({
         reference: 'extrareward4you',
         geo: props.siteConfig.geo,

@@ -6,8 +6,8 @@ import {AdzukiAd, AdzukiAdLink, useAdzuki} from "adzuki-client-react";
 import Markdown from "markdown-to-jsx";
 
 export default function CustomRenderVersion(props) {
-
-    const {adSlotAds} = useAdzuki(props.config);
+    const config = {...props.config}
+    const {adSlotAds} = useAdzuki(config);
 
     function renderAds() {
         return adSlotAds.map((ad) =>

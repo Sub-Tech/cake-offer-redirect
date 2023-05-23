@@ -4,16 +4,39 @@ import BoldVersion from "@/versions/boldVersion";
 import LocationVersion from "@/versions/locationVersion";
 import axios from "axios";
 import {useEffect, useState} from "react";
+import {NextRequest} from 'next/server';
 
 
 export default function Home(props) {
     let [location, setLocation] = useState({});
 
+    console.log(props.config);
     useEffect(() => {
         try {
             axios.get('https://ships.stechga.co.uk/')
                 .then(function (response) {
                     setLocation(response.data);
+                    const countryCode = (response.data.country_code === 'GB') ? 'UK' : response.data.country_code;
+
+                    console.log(countryCode);
+
+                    if(countryCode !== props.config.geo) {
+                        console.log('miss match')
+                        if(countryCode === 'UK') {
+                            props.config.geo = 'UK';
+                            props.config.adzukiId = '19464';
+                            props.config.exclusiveTags = [];
+                            props.config.isDefaultAffiliate = true;
+                            console.log('here UK');
+                        } else  {
+                            props.config.geo = 'US';
+                            props.config.adzukiId = '19465';
+                            props.config.exclusiveTags = [];
+                            props.config.isDefaultAffiliate = true;
+                            console.log('here US');
+                        }
+                    }
+                    props.config.suppressFetch = false;
                 })
         } catch (e) {
             console.log('Could not find location')
@@ -151,11 +174,10 @@ export function getServerSideProps(context) {
 
         let version = Object.keys(versions)[0]; // Default lander
 
-        console.log('here')
         if (context?.query?.force_version) {
             version = context?.query?.force_version;
         } else if (randomBetween(1, 100) <= splitPercentage) { // Split the traffic off to test with
-            if(Object.keys(versions).length === 1){
+            if (Object.keys(versions).length === 1) {
                 version = Object.keys(versions)[0]
             } else {
                 version = Object.keys(versions)[Object.keys(versions).length * Math.random() << 0];
@@ -257,45 +279,48 @@ export function getServerSideProps(context) {
         const data = [];
 
         let possibilities = [
-            {'key' : 'dob', 'value' : ['dob', 'd_o_b', 'date_of_birth', 'd-o-b', 'date-of-birth']},
-            {'key' : 'age', 'value' : ['age']},
-            {'key' : 'gender', 'value' : ['gender', 'g']},
-            {'key' : 'firstName', 'value' : ['firstName', 'first_name', 'firstname', 'fname', 'name', 'f_name']},
-            {'key' : 'lastName', 'value' : ['lastName', 'last_name', 'lastname', 'lname', 'l_name']},
-            {'key' : 'email', 'value' : ['email', 'email_address', 'email-address', 'e-mail']},
-            {'key' : 'city', 'value' : ['city', 'address_city']},
-            {'key' : 'state', 'value' : ['county']},
-            {'key' : 'zipcode', 'value' :  ['zip', 'zip_code', 'zip_code', 'postcode', 'post_code', 'pcode', 'postal_code']},
-            {'key' : 'phone', 'value' :  ['phone', 'tel', 'mob', 'mobile', 'tell', 'telephone']},
+            {'key': 'dob', 'value': ['dob', 'd_o_b', 'date_of_birth', 'd-o-b', 'date-of-birth']},
+            {'key': 'age', 'value': ['age']},
+            {'key': 'gender', 'value': ['gender', 'g']},
+            {'key': 'firstName', 'value': ['firstName', 'first_name', 'firstname', 'fname', 'name', 'f_name']},
+            {'key': 'lastName', 'value': ['lastName', 'last_name', 'lastname', 'lname', 'l_name']},
+            {'key': 'email', 'value': ['email', 'email_address', 'email-address', 'e-mail']},
+            {'key': 'city', 'value': ['city', 'address_city']},
+            {'key': 'state', 'value': ['county']},
+            {
+                'key': 'zipcode',
+                'value': ['zip', 'zip_code', 'zip_code', 'postcode', 'post_code', 'pcode', 'postal_code']
+            },
+            {'key': 'phone', 'value': ['phone', 'tel', 'mob', 'mobile', 'tell', 'telephone']},
         ];
 
         possibilities.forEach((possibility) => {
             const key = possibility.key;
             let value = null;
             possibility.value.forEach((key) => {
-                if(value){
+                if (value) {
                     return;
                 }
-                if(context?.query[key]){
+                if (context?.query[key]) {
                     value = context?.query[key];
                 }
             });
-            if(key && value) {
+            if (key && value) {
                 data[key] = value;
             }
         });
 
-        if(data['dob']) {
+        if (data['dob']) {
             data['dob'] = formatDateOrNull(data['dob']);
-            if(!data['dob']) {
+            if (!data['dob']) {
                 delete data['dob'];
             }
         }
 
-        if(data['gender']){
-            if(['M', 'male', 'm'].includes(data['gender'])) {
+        if (data['gender']) {
+            if (['M', 'male', 'm'].includes(data['gender'])) {
                 data['gender'] = 'male';
-            } else if(['F', 'female', 'f'].includes(data['gender'])) {
+            } else if (['F', 'female', 'f'].includes(data['gender'])) {
                 data['gender'] = 'female';
             } else {
                 delete data['gender'];
@@ -311,6 +336,7 @@ export function getServerSideProps(context) {
 
     const config = {
         reference: 'extrareward4you',
+        suppressFetch: true,
         geo: siteConfig.geo,
         adzukiId: siteConfig.adzuki_id,
         maxAds: displayConfig.number_of_ads,
@@ -339,7 +365,6 @@ export function getServerSideProps(context) {
             siteConfig: siteConfig,
             displayConfig: displayConfig,
             config: config,
-            location : {}
         },
     };
 }
