@@ -6,43 +6,45 @@ import axios from "axios";
 import {useEffect, useState} from "react";
 import {NextRequest} from 'next/server';
 
-
 export default function Home(props) {
     let [location, setLocation] = useState({});
 
-    console.log(props.config);
     useEffect(() => {
-        try {
-            axios.get('https://ships.stechga.co.uk/')
-                .then(function (response) {
-                    setLocation(response.data);
-                    const countryCode = (response.data.country_code === 'GB') ? 'UK' : response.data.country_code;
-
-                    console.log(countryCode);
-
-                    if(countryCode !== props.config.geo) {
-                        console.log('miss match')
-                        if(countryCode === 'UK') {
-                            props.config.geo = 'UK';
-                            props.config.adzukiId = '19464';
-                            props.config.exclusiveTags = [];
-                            props.config.isDefaultAffiliate = true;
-                            console.log('here UK');
-                        } else  {
-                            props.config.geo = 'US';
-                            props.config.adzukiId = '19465';
-                            props.config.exclusiveTags = [];
-                            props.config.isDefaultAffiliate = true;
-                            console.log('here US');
-                        }
-                    }
-                    props.config.suppressFetch = false;
-                })
-        } catch (e) {
-            console.log('Could not find location')
-        }
+        getLocation();
     }, [])
 
+    // Uses SHIPS to get location data based on the users IP address
+    const getLocation = () => {
+        try {
+            axios.get('https://ships.stechga.co.uk/', {
+                timeout: 200,
+            }).then(function (response) {
+                setLocation(response.data);
+                const countryCode = (response.data.country_code === 'GB') ? 'UK' : response.data.country_code;
+
+                if (countryCode !== props.config.geo) {
+                    if (countryCode === 'UK') {
+                        props.config.geo = 'UK';
+                        props.config.adzukiId = '19464';
+                        props.config.exclusiveTags = [];
+                        props.config.isDefaultAffiliate = true;
+                    } else {
+                        props.config.geo = 'US';
+                        props.config.adzukiId = '19465';
+                        props.config.exclusiveTags = [];
+                        props.config.isDefaultAffiliate = true;
+                    }
+                }
+                props.config.suppressFetch = false;
+            }).catch((e) => {
+                props.config.suppressFetch = false;
+            })
+        } catch (e) {
+            props.config.suppressFetch = false;
+        }
+    }
+
+    // Render landing page
     switch (props.displayConfig.version) {
         case 'BoldVersion':
             return BoldVersion(props);
@@ -158,9 +160,7 @@ export function getServerSideProps(context) {
         return config;
     }
 
-    function randomBetween(min, max) { // min and max included
-        return Math.floor(Math.random() * (max - min + 1) + min)
-    }
+
 
     const getDisplayConfig = () => {
         // Default lander is always the top version
@@ -170,13 +170,13 @@ export function getServerSideProps(context) {
             // 'BoldVersion': 'bold',
         }
 
-        const splitPercentage = 20; // How much traffic we will send off from the default lander : 4 = 25%, 5 = 20%, 10 = 10%
+        const splitPercentage = 30; // How much traffic we will send off from the default lander : 4 = 25%, 5 = 20%, 10 = 10%
 
         let version = Object.keys(versions)[0]; // Default lander
 
         if (context?.query?.force_version) {
             version = context?.query?.force_version;
-        } else if (randomBetween(1, 100) <= splitPercentage) { // Split the traffic off to test with
+        } else if (Math.floor(Math.random() * (100 - 1 + 1) + 1) <= splitPercentage) { // Split the traffic off to test with
             if (Object.keys(versions).length === 1) {
                 version = Object.keys(versions)[0]
             } else {
