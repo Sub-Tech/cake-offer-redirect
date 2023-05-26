@@ -6,8 +6,8 @@ import {AdzukiAd, AdzukiAdLink, useAdzuki} from "adzuki-client-react";
 import Markdown from "markdown-to-jsx";
 
 export default function LocationVersion(props, location) {
+    // todo - when passing props in correctly should be const { location, config } = props
     const config = {...props.config}
-
     const {adSlotAds} = useAdzuki(config);
 
     function renderAds() {
@@ -77,7 +77,7 @@ export default function LocationVersion(props, location) {
                             <h2 className={styles.headerMainText}
                                 dangerouslySetInnerHTML={{__html: 'We are sorry this page is no longer available'}}></h2><br/>
                             <h3 className={styles.headerSubText}
-                                dangerouslySetInnerHTML={{__html: 'As you are near <span style="color:#7f57bb;">' + ((location.city)? location.city : "you") + '</span> you can choose <span style="color:#7f57bb;"> 3 vouchers</span> for FREE'}}></h3>
+                                dangerouslySetInnerHTML={{__html: 'As you are near <span style="color:#7f57bb;">' + ((location && location.city)? location.city : "you") + '</span> you can choose <span style="color:#7f57bb;"> 3 vouchers</span> for FREE'}}></h3>
                         </div>
                     </div>
                     <div className={styles.headerMainCountdownContainer}>

@@ -1,59 +1,75 @@
-import DefaultVersion from "@/versions/defaultVersion";
 import CustomRenderVersion from "@/versions/customRenderVersion";
 import BoldVersion from "@/versions/boldVersion";
 import LocationVersion from "@/versions/locationVersion";
 import axios from "axios";
 import {useEffect, useState} from "react";
-import {NextRequest} from 'next/server';
+
+function getLocation () {
+    return axios.get('https://ships.stechga.co.uk/', {
+        timeout: 300,  // request will catch timeout error after this long
+    })
+}
 
 export default function Home(props) {
-    let [location, setLocation] = useState({});
+    const [location, setLocation] = useState({});
+    const [adzukiConfig, setAdzukiConfig] = useState(props.config);
 
+    // quick fix: todo tidy up
     useEffect(() => {
-        getLocation();
-    }, [])
-
-    // Uses SHIPS to get location data based on the users IP address
-    const getLocation = () => {
-        try {
-            axios.get('https://ships.stechga.co.uk/', {
-                timeout: 200,
-            }).then(function (response) {
+        getLocation().then(function (response) {
+            if (response.data.success) {
                 setLocation(response.data);
                 const countryCode = (response.data.country_code === 'GB') ? 'UK' : response.data.country_code;
-
                 if (countryCode !== props.config.geo) {
-                    if (countryCode === 'UK') {
-                        props.config.geo = 'UK';
-                        props.config.adzukiId = '19464';
-                        props.config.exclusiveTags = [];
-                        props.config.isDefaultAffiliate = true;
-                    } else {
-                        props.config.geo = 'US';
-                        props.config.adzukiId = '19465';
-                        props.config.exclusiveTags = [];
-                        props.config.isDefaultAffiliate = true;
-                    }
+                    setAdzukiConfig({
+                        ...adzukiConfig,
+                        ...{
+                            geo: countryCode === 'UK' ? 'UK' : 'US',
+                            adzukiId: countryCode === 'UK' ? '19464' : '19465',
+                            exclusiveTags: [],
+                            isDefaultAffiliate: true,
+                            suppressFetch: false
+                        }
+                    })
+                    return
                 }
-                props.config.suppressFetch = false;
-            }).catch((e) => {
-                props.config.suppressFetch = false;
+            }
+            setAdzukiConfig({
+                ...adzukiConfig,
+                ...{
+                    suppressFetch: false
+                }
             })
-        } catch (e) {
-            props.config.suppressFetch = false;
-        }
-    }
+        }).catch((e) => {
+            setAdzukiConfig({
+                ...adzukiConfig,
+                ...{
+                    suppressFetch: false
+                }
+            })
+        })
+    }, [])
 
+    // todo: fix is quick hack, lets separate the adzuki config for the page config and send them in as separate props, like you are with location
+    // adzukiConfig, pageConfig, location
     // Render landing page
     switch (props.displayConfig.version) {
         case 'BoldVersion':
-            return BoldVersion(props);
+            return BoldVersion({...props, ... {
+                config: adzukiConfig,
+            }});
         case 'LocationVersion':
-            return LocationVersion(props, location);
+            return LocationVersion({...props, ... {
+                config: adzukiConfig,
+            }}, location);
         case 'CustomRenderVersion':
-            return CustomRenderVersion(props);
+            return CustomRenderVersion({...props, ... {
+                config: adzukiConfig,
+            }});
         default:
-            return CustomRenderVersion(props);
+            return CustomRenderVersion({...props, ... {
+                config: adzukiConfig,
+            }});
     }
 }
 
