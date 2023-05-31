@@ -122,6 +122,7 @@
     cursor: pointer;
     font-size: 18px;
     width: 230px;
+    max-width: 100%;
 }
 
 .formInput::-webkit-outer-spin-button,
@@ -306,52 +307,6 @@
     background: #FFEFE0;
 }
 
-
-@media (max-width: 1550px) {
-    .offersContainer {
-        grid-template-columns: repeat(3, 300px);
-    }
-}
-
-@media (max-width: 1100px) {
-    .offersContainer {
-        grid-template-columns: repeat(3, 250px);
-    }
-}
-
-@media (max-width: 850px) {
-    .offersContainer {
-        grid-template-columns: repeat(2, 300px);
-    }
-
-}
-
-@media (max-width: 670px) {
-    .offersContainer {
-        grid-template-columns: repeat(1, 100%);
-    }
-
-    .offersContainer {
-        gap: 5px;
-    }
-
-    .offerCard {
-        display: flex;
-        border-radius: 0;
-        padding-right: 15px;
-        align-items: center;
-    }
-
-    .offerCardImage {
-        width: 30%;
-        margin-left: 15px;
-    }
-
-    .offerCardBody {
-        width: 70%;
-        margin-right: 10px;
-    }
-}
 
 
 /*TEXT Animation*/
@@ -637,3 +592,71 @@
         opacity: 1;
     }
 }
+
+
+
+@media (max-width: 1550px) {
+    .offersContainer {
+        grid-template-columns: repeat(3, 300px);
+    }
+}
+
+@media (max-width: 1100px) {
+    .offersContainer {
+        grid-template-columns: repeat(3, 250px);
+    }
+}
+
+@media (max-width: 850px) {
+    .offersContainer {
+        grid-template-columns: repeat(2, 300px);
+    }
+
+    .particletext {
+        font-size: 38px;
+    }
+    .quizContainerHeaderBox {
+        padding: 10px 20px 80px 20px;
+    }
+    .form {
+        width:100%;
+        left:0;
+    }
+    .offersHoldingArea {
+        width: 100%;
+        left:0;
+    }
+    .offersHoldingAreaOffers {
+        grid-template-columns: repeat(2, calc(50% - 8px));
+    }
+    .offersContainer {
+        margin: -40px -10px;
+    }
+}
+
+@media (max-width: 670px) {
+    .offersContainer {
+        grid-template-columns: repeat(1, 100%);
+    }
+
+    .offersContainer {
+        gap: 5px;
+    }
+
+    .offerCard {
+        display: flex;
+        padding-right: 15px;
+        align-items: center;
+    }
+
+    .offerCardImage {
+        width: 30%;
+        margin-left: 15px;
+    }
+
+    .offerCardBody {
+        width: 70%;
+        margin-right: 10px;
+    }
+}
+
