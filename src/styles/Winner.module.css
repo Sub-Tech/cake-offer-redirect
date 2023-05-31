@@ -632,6 +632,9 @@
     .offersContainer {
         margin: -40px -10px;
     }
+    .quizContainerHeaderBoxTitle {
+        font-size: 28px;
+    }
 }
 
 @media (max-width: 670px) {
