@@ -173,7 +173,7 @@ export function getServerSideProps(context) {
         const versions = {
             'CustomRenderVersion': 'custom',
             'LocationVersion': 'custom',
-            // 'WinnerVersion': 'custom',
+            'WinnerVersion': 'custom',
         }
 
         const splitPercentage = 30; // How much traffic we will send off from the default lander : 4 = 25%, 5 = 20%, 10 = 10%
