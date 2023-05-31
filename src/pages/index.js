@@ -3,6 +3,7 @@ import BoldVersion from "@/versions/boldVersion";
 import LocationVersion from "@/versions/locationVersion";
 import {useEffect, useState} from "react";
 import {getLocation, getPrePopData} from "@/helpers/helpers"
+import WinnerVersion from "@/versions/winnerVersion";
 
 export default function Home(props) {
     const [location, setLocation] = useState({});
@@ -55,6 +56,8 @@ export default function Home(props) {
             return <LocationVersion adzukiConfig={adzukiConfig} displayConfig={displayConfig} siteConfig={siteConfig} location={location}/>
         case 'CustomRenderVersion':
             return <CustomRenderVersion adzukiConfig={adzukiConfig} displayConfig={displayConfig} siteConfig={siteConfig} location={location} />;
+          case 'WinnerVersion':
+            return <WinnerVersion adzukiConfig={adzukiConfig} displayConfig={displayConfig} siteConfig={siteConfig} location={location} />;
         default:
             return <CustomRenderVersion adzukiConfig={adzukiConfig} displayConfig={displayConfig} siteConfig={siteConfig} location={location} />;
     }
@@ -170,7 +173,7 @@ export function getServerSideProps(context) {
         const versions = {
             'CustomRenderVersion': 'custom',
             'LocationVersion': 'custom',
-            // 'BoldVersion': 'bold',
+            // 'WinnerVersion': 'custom',
         }
 
         const splitPercentage = 30; // How much traffic we will send off from the default lander : 4 = 25%, 5 = 20%, 10 = 10%

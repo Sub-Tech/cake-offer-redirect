@@ -1,0 +1,634 @@
+.body {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    background: white;
+}
+
+.logo {
+    height: 50px;
+}
+
+.header {
+    padding: 20px 0;
+}
+
+.container {
+    max-width: 100%;
+    width: 800px;
+    margin: 0 auto;
+    padding: 0 20px;
+}
+
+.quizContainer {
+    height: 100%;
+    width: 100%;
+    background: white;
+    min-height: 900px;
+}
+
+.quizContainerHeaderBox {
+    background-image: linear-gradient(to top, #3a8bce 0%, #2a3074 100%);
+    border-radius: 10px;
+    padding: 10px 50px 80px 50px;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+.quizContainerHeaderBoxTitle {
+    color: white;
+    margin-top: -40px;
+    font-weight: 500;
+    font-size: 35px;
+    line-height: 1.3em;
+    margin-bottom: 20px;
+}
+
+.quizContainerHeaderBoxButton {
+    border-radius: 8px;
+    border: 1px solid white;
+    display: inline-block;
+    padding: 12px 20px;
+    color: white;
+}
+
+.quizContainerHeaderBoxRight {
+    width: 50%;
+    display: inline-block;
+    padding-top: 30px;
+    padding-left: 30px;
+    position: relative;
+
+}
+
+.form {
+    left: 30px;
+    position: relative;
+    top: -50px;
+    width: calc(100% - 60px);
+    background: white;
+    padding: 30px;
+    border-radius: 10px;
+    box-shadow: 0px 0px 10px #00000038;
+    margin-bottom: -30px;
+    text-align: center;
+}
+
+.formImage {
+    font-size: 100px;
+    text-align: center;
+    display: block;
+}
+
+.formHeader {
+    text-align: center;
+    font-size: 30px;
+    margin-bottom: 10px;
+}
+
+.formQuestionText {
+    font-size: 20px;
+    text-align: center;
+    margin-bottom: 15px;
+}
+
+.formOption {
+    border-radius: 8px;
+    border: 1px solid black;
+    padding: 12px 20px;
+    text-align: center;
+    margin-bottom: 10px;
+    transition: 0.15s all ease-in-out;
+    cursor: pointer;
+}
+
+.formOption:hover {
+    background: #e5a200;
+    border-color: #e5a200;
+    color: white;
+}
+
+.formInput {
+    border-radius: 8px;
+    border: 1px solid black;
+    padding: 12px 20px;
+    text-align: center;
+    margin-bottom: 10px;
+    transition: 0.15s all ease-in-out;
+    cursor: pointer;
+    font-size: 18px;
+    width: 230px;
+}
+
+.formInput::-webkit-outer-spin-button,
+.formInput::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+.offersHoldingArea {
+    background: #e3e3e3;
+    border-radius: 8px;
+    padding: 30px 20px;
+    left: 30px;
+    position: relative;
+    width: calc(100% - 60px);
+    margin-bottom: 50px;
+}
+
+.offersHoldingAreaHeader {
+    font-size: 25px;
+    text-align: center;
+    margin-bottom: 0px;
+}
+
+.offersHoldingAreaSubHeader {
+    font-size: 20px;
+    text-align: center;
+    margin-bottom: 20px;
+    font-weight: 500;
+}
+
+.offersHoldingAreaOffers {
+    grid-template-columns: repeat(3, calc(33.3% - 11px));
+    display: grid;
+    gap: 14px;
+}
+
+.offersHoldingAreaOffer {
+    background: white;
+    border-radius: 5px;
+    display: inline-block;
+    height: 150px;
+    position: relative;
+    padding: 20px;
+    text-align: center;
+    filter: blur(2px);
+}
+
+.offersHoldingAreaOfferText {
+    color: #c0c0c0;
+}
+
+.submitButton {
+    border-radius: 5px;
+    color: white;
+    background: #F98128;
+    padding: 15px 30px;
+    display: inline-block;
+    width: 230px;
+    text-align: center;
+    margin-top: 15px;
+    cursor: pointer;
+}
+
+.rewardIcon {
+    font-size: 50px;
+}
+
+.footer {
+    background: #cacaca;
+    padding: 40px;
+    text-align: center;
+}
+
+.footerText {
+    max-width: 60%;
+    font-size: 14px;
+    text-align: center;
+    font-weight: 400;
+    display: inline-block;
+}
+
+.offersContainer {
+    gap: 32px;
+    grid-template-columns: repeat(2, 50%);
+    margin: -50px 15px 32px 15px;
+    display: grid;
+    justify-content: center;
+}
+
+.offerCardContainer {
+    /*width: 25%;*/
+    /*padding: 15px;*/
+}
+
+.offerCard {
+    position: relative;
+    box-shadow: 0 2px 4px #00000030;
+    /*display: flex;*/
+    /*flex-direction: column;*/
+    overflow: hidden;
+    width: 100%;
+    height: 100%;
+    background: #FFFFFF;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: box-shadow .3s ease-in-out;
+}
+
+.offerCard:hover {
+    box-shadow: 0 8px 16px #00000029;
+}
+
+.offerCardBody {
+    padding: 15px;
+}
+
+.offerCardTitle {
+    color: #002445;
+    font-size: 16px;
+    font-weight: 500;
+    line-height: 20px;
+    margin-bottom: 8px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    width: 100%;
+}
+
+.offerCardSubTitle {
+    font-size: 15px;
+    color: #6c7582;
+    font-weight: 400;
+    line-height: 18px;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    width: 100%;
+    white-space: nowrap;
+    margin-bottom: 16px;
+}
+
+.offerCardImage {
+    width: 100%;
+    height: auto;
+}
+
+.offerCardButtonContainer {
+    display: flex;
+    flex-direction: row;
+}
+
+.offerCardButton {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: white;
+    background: #F98128;
+    border-radius: 4px;
+    text-align: center;
+    font-size: 15px;
+    padding: 14px;
+    flex-grow: 1;
+}
+
+.offerCardInfoButton {
+    border-radius: 4px;
+    border: 1px solid #CCCCCC;
+    width: 58px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-right: 10px;
+    transition: border-color .4s, background-color .4s;
+}
+
+.offerCardInfoButton:hover {
+    border: 1px solid #FF4400;
+    background: #FFEFE0;
+}
+
+
+@media (max-width: 1550px) {
+    .offersContainer {
+        grid-template-columns: repeat(3, 300px);
+    }
+}
+
+@media (max-width: 1100px) {
+    .offersContainer {
+        grid-template-columns: repeat(3, 250px);
+    }
+}
+
+@media (max-width: 850px) {
+    .offersContainer {
+        grid-template-columns: repeat(2, 300px);
+    }
+
+}
+
+@media (max-width: 670px) {
+    .offersContainer {
+        grid-template-columns: repeat(1, 100%);
+    }
+
+    .offersContainer {
+        gap: 5px;
+    }
+
+    .offerCard {
+        display: flex;
+        border-radius: 0;
+        padding-right: 15px;
+        align-items: center;
+    }
+
+    .offerCardImage {
+        width: 30%;
+        margin-left: 15px;
+    }
+
+    .offerCardBody {
+        width: 70%;
+        margin-right: 10px;
+    }
+}
+
+
+/*TEXT Animation*/
+
+.textcontainer {
+    padding: 40px 0;
+    text-align: left;
+}
+
+.particletext {
+    text-align: center;
+    font-size: 48px;
+    position: relative;
+    color: white;
+    font-weight: 600;
+}
+
+.particletext.bubbles > .particle {
+    opacity: 0;
+    position: absolute;
+    background-color: rgba(33, 150, 243, 0.5);
+    -webkit-animation: bubbles 3s ease-in infinite;
+    animation: bubbles 3s ease-in infinite;
+    border-radius: 100%;
+}
+
+.particletext.hearts > .particle {
+    opacity: 0;
+    position: absolute;
+    background-color: #cc2a5d;
+    -webkit-animation: hearts 3s ease-in infinite;
+    animation: hearts 3s ease-in infinite;
+}
+
+.particletext.hearts > .particle:before, .particletext.hearts > .particle:after {
+    position: absolute;
+    content: "";
+    border-radius: 100px;
+    top: 0px;
+    left: 0px;
+    width: 100%;
+    height: 100%;
+    background-color: #cc2a5d;
+}
+
+.particletext.hearts > .particle:before {
+    transform: translateX(-50%);
+}
+
+.particletext.hearts > .particle:after {
+    transform: translateY(-50%);
+}
+
+.particletext.lines > .particle {
+    position: absolute;
+    background-color: rgba(244, 67, 54, 0.5);
+    -webkit-animation: lines 3s linear infinite;
+    animation: lines 3s linear infinite;
+}
+
+.particletext.confetti > .particle {
+    opacity: 0;
+    position: absolute;
+    -webkit-animation: confetti 3s ease-in infinite;
+    animation: confetti 3s ease-in infinite;
+}
+
+.particletext.confetti > .particle.c1 {
+    background-color: rgb(229, 161, 0);
+}
+
+.particletext.confetti > .particle.c2 {
+    background-color: rgb(0, 150, 252);
+}
+
+.particletext.fire > .particle {
+    position: absolute;
+    background-color: rgba(255, 193, 7, 0.5);
+    border-radius: 40px;
+    border-top-right-radius: 0px;
+    -webkit-animation: fires 0.8s linear infinite;
+    animation: fires 0.8s linear infinite;
+    transform: rotate(-45deg);
+    opacity: 0;
+}
+
+.particletext.fire > .particle:before {
+    position: absolute;
+    content: "";
+    top: 60%;
+    left: 40%;
+    transform: translate(-50%, -50%);
+    width: 50%;
+    height: 50%;
+    border-radius: 40px;
+    border-top-right-radius: 0px;
+    background-color: rgba(251, 140, 0, 0.5);
+}
+
+.particletext.sunbeams > .particle {
+    position: absolute;
+    background-color: rgba(253, 216, 53, 0.5);
+    -webkit-animation: sunbeams 3s linear infinite;
+    animation: sunbeams 3s linear infinite;
+}
+
+@-webkit-keyframes bubbles {
+    0% {
+        opacity: 0;
+    }
+    20% {
+        opacity: 1;
+        transform: translate(0, -20%);
+    }
+    100% {
+        opacity: 0;
+        transform: translate(0, -1000%);
+    }
+}
+
+@keyframes bubbles {
+    0% {
+        opacity: 0;
+    }
+    20% {
+        opacity: 1;
+        transform: translate(0, -20%);
+    }
+    100% {
+        opacity: 0;
+        transform: translate(0, -1000%);
+    }
+}
+
+@-webkit-keyframes hearts {
+    0% {
+        opacity: 0;
+        transform: translate(0, 0%) rotate(45deg);
+    }
+    20% {
+        opacity: 0.8;
+        transform: translate(0, -20%) rotate(45deg);
+    }
+    100% {
+        opacity: 0;
+        transform: translate(0, -1000%) rotate(45deg);
+    }
+}
+
+@keyframes hearts {
+    0% {
+        opacity: 0;
+        transform: translate(0, 0%) rotate(45deg);
+    }
+    20% {
+        opacity: 0.8;
+        transform: translate(0, -20%) rotate(45deg);
+    }
+    100% {
+        opacity: 0;
+        transform: translate(0, -1000%) rotate(45deg);
+    }
+}
+
+@-webkit-keyframes lines {
+    0%, 50%, 100% {
+        transform: translateY(0%);
+    }
+    25% {
+        transform: translateY(100%);
+    }
+    75% {
+        transform: translateY(-100%);
+    }
+}
+
+@keyframes lines {
+    0%, 50%, 100% {
+        transform: translateY(0%);
+    }
+    25% {
+        transform: translateY(100%);
+    }
+    75% {
+        transform: translateY(-100%);
+    }
+}
+
+@-webkit-keyframes confetti {
+    0% {
+        opacity: 0;
+        transform: translateY(0%) rotate(0deg);
+    }
+    10% {
+        opacity: 1;
+    }
+    35% {
+        transform: translateY(-800%) rotate(270deg);
+    }
+    80% {
+        opacity: 1;
+    }
+    100% {
+        opacity: 0;
+        transform: translateY(2000%) rotate(1440deg);
+    }
+}
+
+@keyframes confetti {
+    0% {
+        opacity: 0;
+        transform: translateY(0%) rotate(0deg);
+    }
+    10% {
+        opacity: 1;
+    }
+    35% {
+        transform: translateY(-800%) rotate(270deg);
+    }
+    80% {
+        opacity: 1;
+    }
+    100% {
+        opacity: 0;
+        transform: translateY(2000%) rotate(1440deg);
+    }
+}
+
+@-webkit-keyframes fires {
+    0% {
+        transform: rotate(-70deg) translateY(0%);
+    }
+    25% {
+        transform: rotate(-20deg) translateY(-5%);
+        opacity: 1;
+    }
+    50% {
+        transform: rotate(-70deg) translateY(-10%);
+    }
+    75% {
+        transform: rotate(-20deg) translateY(-20%);
+    }
+    100% {
+        transform: rotate(-70deg) translateY(-40%);
+        opacity: 1;
+    }
+}
+
+@keyframes fires {
+    0% {
+        transform: rotate(-70deg) translateY(0%);
+    }
+    25% {
+        transform: rotate(-20deg) translateY(-5%);
+        opacity: 1;
+    }
+    50% {
+        transform: rotate(-70deg) translateY(-10%);
+    }
+    75% {
+        transform: rotate(-20deg) translateY(-20%);
+    }
+    100% {
+        transform: rotate(-70deg) translateY(-40%);
+        opacity: 1;
+    }
+}
+
+@keyframes sunbeams {
+    0% {
+        transform: translateY(40%) rotate(0deg);
+    }
+    50% {
+        transform: translateY(-40%) rotate(180deg);
+    }
+    100% {
+        transform: translateY(40%) rotate(360deg);
+    }
+    0%, 14%, 17%, 43%, 53%, 71%, 80%, 94%, 100% {
+        opacity: 0;
+    }
+    6%, 15%, 24%, 28%, 48%, 55%, 78%, 82%, 99% {
+        opacity: 1;
+    }
+}
