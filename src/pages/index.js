@@ -1,18 +1,14 @@
 import CustomRenderVersion from "@/versions/customRenderVersion";
 import BoldVersion from "@/versions/boldVersion";
 import LocationVersion from "@/versions/locationVersion";
-import axios from "axios";
 import {useEffect, useState} from "react";
-
-function getLocation () {
-    return axios.get('https://ships.stechga.co.uk/', {
-        timeout: 300,  // request will catch timeout error after this long
-    })
-}
+import {getLocation, getPrePopData} from "@/helpers/helpers"
 
 export default function Home(props) {
     const [location, setLocation] = useState({});
-    const [adzukiConfig, setAdzukiConfig] = useState(props.config);
+    const [adzukiConfig, setAdzukiConfig] = useState(props.adzukiConfig);
+    const [displayConfig, setDisplayConfig] = useState(props.displayConfig);
+    const [siteConfig, setSiteConfig] = useState(props.siteConfig);
 
     // quick fix: todo tidy up
     useEffect(() => {
@@ -20,7 +16,8 @@ export default function Home(props) {
             if (response.data.success) {
                 setLocation(response.data);
                 const countryCode = (response.data.country_code === 'GB') ? 'UK' : response.data.country_code;
-                if (countryCode !== props.config.geo) {
+
+                if (countryCode !== adzukiConfig.geo) {
                     setAdzukiConfig({
                         ...adzukiConfig,
                         ...{
@@ -50,26 +47,16 @@ export default function Home(props) {
         })
     }, [])
 
-    // todo: fix is quick hack, lets separate the adzuki config for the page config and send them in as separate props, like you are with location
-    // adzukiConfig, pageConfig, location
     // Render landing page
     switch (props.displayConfig.version) {
         case 'BoldVersion':
-            return BoldVersion({...props, ... {
-                config: adzukiConfig,
-            }});
+            return <BoldVersion adzukiConfig={adzukiConfig} displayConfig={displayConfig} siteConfig={siteConfig} location={location}/>
         case 'LocationVersion':
-            return LocationVersion({...props, ... {
-                config: adzukiConfig,
-            }}, location);
+            return <LocationVersion adzukiConfig={adzukiConfig} displayConfig={displayConfig} siteConfig={siteConfig} location={location}/>
         case 'CustomRenderVersion':
-            return CustomRenderVersion({...props, ... {
-                config: adzukiConfig,
-            }});
+            return <CustomRenderVersion adzukiConfig={adzukiConfig} displayConfig={displayConfig} siteConfig={siteConfig} location={location} />;
         default:
-            return CustomRenderVersion({...props, ... {
-                config: adzukiConfig,
-            }});
+            return <CustomRenderVersion adzukiConfig={adzukiConfig} displayConfig={displayConfig} siteConfig={siteConfig} location={location} />;
     }
 }
 
@@ -77,7 +64,7 @@ export function getServerSideProps(context) {
     const getSiteConfig = () => {
 
         let config = {
-            adzuki_id: null,
+            adzukiId: null,
             geo: null,
             logo: null,
             alt: null,
@@ -96,7 +83,7 @@ export function getServerSideProps(context) {
             case '19212':
             case '19463':
                 config.logo = '/logos/free-club-uk.png';
-                config.adzuki_id = '19463'
+                config.adzukiId = '19463'
                 config.geo = 'UK';
                 config.link = 'https://freeclub.co.uk/';
                 config.exclusive = true;
@@ -105,7 +92,7 @@ export function getServerSideProps(context) {
             case '17739':
             case '19304':
                 config.logo = '/logos/cashback.png';
-                config.adzuki_id = '19304'
+                config.adzukiId = '19304'
                 config.geo = 'UK';
                 config.link = 'https://cashback.co.uk/';
                 config.tag = 'cashback';
@@ -114,7 +101,7 @@ export function getServerSideProps(context) {
             case '18920':
             case '19073' :
                 config.logo = '/logos/paid-surveys.png';
-                config.adzuki_id = '18920';
+                config.adzukiId = '18920';
                 config.geo = 'UK';
                 config.link = 'https://paidsurveys.uk.com/';
                 config.tag = 'paid_surveys';
@@ -123,14 +110,14 @@ export function getServerSideProps(context) {
             // US Sites
             case '18685':
                 config.logo = '/logos/global-survey-hub.png';
-                config.adzuki_id = '18685';
+                config.adzukiId = '18685';
                 config.geo = 'US';
                 config.link = 'https://www.globalsurveyhub.com/';
                 config.tag = 'coreg';
                 break;
             case '18691':
                 config.logo = '/logos/product-testing-usa.png';
-                config.adzuki_id = '18691';
+                config.adzukiId = '18691';
                 config.geo = 'US';
                 config.link = 'https://producttestingusa.com/';
                 config.tag = 'coreg';
@@ -138,7 +125,7 @@ export function getServerSideProps(context) {
             case '19469': // For Zeropark
             case '19477': // For Zeropark
             case '19468': // For Zeropark
-                config.adzuki_id = '19468';
+                config.adzukiId = '19468';
                 config.geo = 'UK';
                 break;
             case '17768':
@@ -147,26 +134,26 @@ export function getServerSideProps(context) {
             case '18844':
             case '18824':
                 config.logo = '/logos/us-product-testing.png';
-                config.adzuki_id = '18824';
+                config.adzukiId = '18824';
                 config.geo = 'US';
                 config.link = 'https://usproducttesting.com/';
                 config.tag = 'coreg';
                 break;
             case '19425':
                 config.geo = 'US';
-                config.adzuki_id = '19465';
+                config.adzukiId = '19465';
                 config.isDefaultAffiliate = true;
                 break;
             default:
                 if (!context?.query?.country || context?.query?.country === 'GB' | context?.query?.country === 'gb' || context?.query?.country === 'UK' || context?.query?.country === 'uk') {
                     config.geo = 'UK';
-                    config.adzuki_id = '19464';
+                    config.adzukiId = '19464';
                     config.isDefaultAffiliate = true;
                 }
 
                 if (context?.query?.country === 'US' || context?.query?.country === 'us') {
                     config.geo = 'US';
-                    config.adzuki_id = '19465';
+                    config.adzukiId = '19465';
                     config.isDefaultAffiliate = true;
                 }
                 break;
@@ -276,85 +263,15 @@ export function getServerSideProps(context) {
         return config;
     }
 
-    function formatDateOrNull(dateString) {
-        try {
-            const date = new Date(dateString);
-            if (isNaN(date)) {
-                return null;
-            }
-            const year = date.getFullYear();
-            const month = String(date.getMonth() + 1).padStart(2, "0");
-            const day = String(date.getDate()).padStart(2, "0");
-            return `${year}-${month}-${day}`;
-        } catch (error) {
-            return null;
-        }
-    }
-
-    const getPrePopData = () => {
-        const data = [];
-
-        let possibilities = [
-            {'key': 'dob', 'value': ['dob', 'd_o_b', 'date_of_birth', 'd-o-b', 'date-of-birth']},
-            {'key': 'age', 'value': ['age']},
-            {'key': 'gender', 'value': ['gender', 'g']},
-            {'key': 'firstName', 'value': ['firstName', 'first_name', 'firstname', 'fname', 'name', 'f_name']},
-            {'key': 'lastName', 'value': ['lastName', 'last_name', 'lastname', 'lname', 'l_name']},
-            {'key': 'email', 'value': ['email', 'email_address', 'email-address', 'e-mail']},
-            {'key': 'city', 'value': ['city', 'address_city']},
-            {'key': 'state', 'value': ['county']},
-            {
-                'key': 'zipcode',
-                'value': ['zip', 'zip_code', 'zip_code', 'postcode', 'post_code', 'pcode', 'postal_code']
-            },
-            {'key': 'phone', 'value': ['phone', 'tel', 'mob', 'mobile', 'tell', 'telephone']},
-        ];
-
-        possibilities.forEach((possibility) => {
-            const key = possibility.key;
-            let value = null;
-            possibility.value.forEach((key) => {
-                if (value) {
-                    return;
-                }
-                if (context?.query[key]) {
-                    value = context?.query[key];
-                }
-            });
-            if (key && value) {
-                data[key] = value;
-            }
-        });
-
-        if (data['dob']) {
-            data['dob'] = formatDateOrNull(data['dob']);
-            if (!data['dob']) {
-                delete data['dob'];
-            }
-        }
-
-        if (data['gender']) {
-            if (['M', 'male', 'm'].includes(data['gender'])) {
-                data['gender'] = 'male';
-            } else if (['F', 'female', 'f'].includes(data['gender'])) {
-                data['gender'] = 'female';
-            } else {
-                delete data['gender'];
-            }
-        }
-
-        return data;
-    }
-
-    const prePopData = getPrePopData();
+    const prePopData = getPrePopData(context);
     const siteConfig = getSiteConfig();
     const displayConfig = getDisplayConfig();
 
-    const config = {
+    const adzukiConfig = {
         reference: 'extrareward4you',
         suppressFetch: true,
         geo: siteConfig.geo,
-        adzukiId: siteConfig.adzuki_id,
+        adzukiId: siteConfig.adzukiId,
         maxAds: displayConfig.number_of_ads,
         s3: displayConfig.code || "",
         s4: siteConfig.affiliate || "",
@@ -364,14 +281,13 @@ export function getServerSideProps(context) {
     }
 
     if (siteConfig.isDefaultAffiliate && siteConfig.affiliate) {
-        config.utm_medium = siteConfig.affiliate
+        adzukiConfig.utm_medium = siteConfig.affiliate
     }
     if (siteConfig.exclusive && siteConfig.tag) {
-        config.exclusiveTags = [siteConfig.tag]
+        adzukiConfig.exclusiveTags = [siteConfig.tag]
     }
-
     if (!siteConfig.exclusive && siteConfig.tag) {
-        config.preferTags = [siteConfig.tag]
+        adzukiConfig.preferTags = [siteConfig.tag]
     }
 
     return {
@@ -380,7 +296,7 @@ export function getServerSideProps(context) {
             tag: (context?.query?.tag) ?? null,
             siteConfig: siteConfig,
             displayConfig: displayConfig,
-            config: config,
+            adzukiConfig: adzukiConfig,
         },
     };
 }

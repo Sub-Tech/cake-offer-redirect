@@ -5,15 +5,9 @@ import {Container, Row, Col} from 'react-grid-system';
 import {AdzukiAd, AdzukiAdLink, useAdzuki} from 'adzuki-client-react'
 import Markdown from 'markdown-to-jsx';
 
-export default function BoldVersion(props) {
-    const config = {...props.config}
+export default function BoldVersion({adzukiConfig, displayConfig, siteConfig, location}) {
 
-    const {adSlotAds} = useAdzuki({
-        reference: 'extrareward4you',
-        geo: props.siteConfig.geo,
-        adzukiId: props.siteConfig.adzuki_id,
-        maxAds: props.displayConfig.number_of_ads,
-    })
+    const {adSlotAds} = useAdzuki(adzukiConfig)
 
     function renderAds() {
         return adSlotAds.map((ad) => (
@@ -52,7 +46,7 @@ export default function BoldVersion(props) {
 
     return (
         <>
-            <GlobalHead props={props}/>
+            <GlobalHead/>
 
             <Row>
                 <Col sm={12}>

@@ -5,10 +5,8 @@ import Countdown, {zeroPad} from "react-countdown";
 import {AdzukiAd, AdzukiAdLink, useAdzuki} from "adzuki-client-react";
 import Markdown from "markdown-to-jsx";
 
-export default function LocationVersion(props, location) {
-    // todo - when passing props in correctly should be const { location, config } = props
-    const config = {...props.config}
-    const {adSlotAds} = useAdzuki(config);
+export default function LocationVersion({adzukiConfig, displayConfig, siteConfig, location}) {
+    const {adSlotAds} = useAdzuki(adzukiConfig);
 
     function renderAds() {
         return adSlotAds.map((ad) =>
@@ -49,17 +47,17 @@ export default function LocationVersion(props, location) {
 
     return (
         <>
-            <GlobalHead props={props}/>
+            <GlobalHead/>
 
             <div className={styles.body}>
                 <div className={styles.header}>
                     <div className={styles.headerTop}>
                         <div className={styles.container}>
-                            {(props.siteConfig.logo) ?
+                            {(siteConfig.logo) ?
                                 <div className={styles.headerTopLogo}>
                                     <Image
                                         className={styles.headerTopLogoImage}
-                                        src={props.siteConfig.logo}
+                                        src={siteConfig.logo}
                                         alt="Logo"
                                         width={600}
                                         height={200}

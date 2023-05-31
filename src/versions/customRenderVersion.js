@@ -5,9 +5,8 @@ import Countdown, {zeroPad} from "react-countdown";
 import {AdzukiAd, AdzukiAdLink, useAdzuki} from "adzuki-client-react";
 import Markdown from "markdown-to-jsx";
 
-export default function CustomRenderVersion(props) {
-    const config = {...props.config}
-    const {adSlotAds} = useAdzuki(config);
+export default function CustomRenderVersion({adzukiConfig, displayConfig, siteConfig, location}) {
+    const {adSlotAds} = useAdzuki(adzukiConfig);
 
     function renderAds() {
         return adSlotAds.map((ad) =>
@@ -48,17 +47,17 @@ export default function CustomRenderVersion(props) {
 
     return (
         <>
-            <GlobalHead props={props}/>
+            <GlobalHead/>
 
             <div className={styles.body}>
                 <div className={styles.header}>
                     <div className={styles.headerTop}>
                         <div className={styles.container}>
-                            {(props.siteConfig.logo) ?
+                            {(siteConfig.logo) ?
                                 <div className={styles.headerTopLogo}>
                                     <Image
                                         className={styles.headerTopLogoImage}
-                                        src={props.siteConfig.logo}
+                                        src={siteConfig.logo}
                                         alt="Logo"
                                         width={600}
                                         height={200}
@@ -74,16 +73,16 @@ export default function CustomRenderVersion(props) {
                             <img src={"/images/customRender/own/cactus.png"}
                                  className={styles.headerMainCactusLeft}/>
                             <h2 className={styles.headerMainText}
-                                dangerouslySetInnerHTML={{__html: props.displayConfig.main_header}}></h2><br/>
+                                dangerouslySetInnerHTML={{__html: displayConfig.main_header}}></h2><br/>
                             <h3 className={styles.headerSubText}
-                                dangerouslySetInnerHTML={{__html: props.displayConfig.sub_header}}></h3>
+                                dangerouslySetInnerHTML={{__html: displayConfig.sub_header}}></h3>
                         </div>
                     </div>
                     <div className={styles.headerMainCountdownContainer}>
                         <div className={styles.container}>
                             <h2 className={styles.headerMainCountdownText}>Your exclusive deals expire in
                                 : <b><Countdown date={Date.now() + (5 * 60000)}
-                                                renderer={(props) => zeroPad(props.minutes) + ':' + zeroPad(props.seconds)}/></b>
+                                                renderer={(p) => zeroPad(p.minutes) + ':' + zeroPad(p.seconds)}/></b>
                             </h2>
                         </div>
                     </div>
