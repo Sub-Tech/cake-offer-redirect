@@ -6,6 +6,23 @@ export function getLocation() {
     })
 }
 
+export function getSplitTestVersion(versionSplits) {
+    // versionSplits [{version: 'version1', split: 0.5}, {version: 'version2', split: 0.5}]
+    const randomNumber = Math.random();
+
+    let cumulativeSplit = 0;
+
+    for (let i = 0; i < versionSplits.length; i++) {
+        cumulativeSplit += versionSplits[i].split; // Add the current split percentage to the cumulative total
+
+        if (randomNumber <= cumulativeSplit) {
+            return versionSplits[i].version; // Return the version if the random number is within the current cumulative split
+        }
+    }
+
+    return versionSplits[0].version; // just in case something fucks out
+}
+
 export function formatDateOrNull(dateString) {
     try {
         const date = new Date(dateString);

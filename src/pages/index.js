@@ -2,7 +2,7 @@ import CustomRenderVersion from "@/versions/customRenderVersion";
 import BoldVersion from "@/versions/boldVersion";
 import LocationVersion from "@/versions/locationVersion";
 import {useEffect, useState} from "react";
-import {getLocation, getPrePopData} from "@/helpers/helpers"
+import {getLocation, getPrePopData, getSplitTestVersion} from "@/helpers/helpers"
 import WinnerVersion from "@/versions/winnerVersion";
 
 export default function Home(props) {
@@ -166,29 +166,29 @@ export function getServerSideProps(context) {
         return config;
     }
 
-
+    const versionSplits = [
+        {
+            version: 'CustomRenderVersion',
+            split: 0.5,
+        },
+        {
+            version: 'LocationVersion',
+            split: 0.25,
+        },
+        {
+            version: 'WinnerVersion',
+            split: 0.25,
+        }
+    ]
 
     const getDisplayConfig = () => {
-        // Default lander is always the top version
-        const versions = {
-            'CustomRenderVersion': 'custom',
-            'LocationVersion': 'custom',
-            'WinnerVersion': 'custom',
-        }
+        const forceVersion = context?.query?.force_version;
 
-        const splitPercentage = 30; // How much traffic we will send off from the default lander : 4 = 25%, 5 = 20%, 10 = 10%
-
-        let version = Object.keys(versions)[0]; // Default lander
-
-        if (context?.query?.force_version) {
-            version = context?.query?.force_version;
-        } else if (Math.floor(Math.random() * (100 - 1 + 1) + 1) <= splitPercentage) { // Split the traffic off to test with
-            if (Object.keys(versions).length === 1) {
-                version = Object.keys(versions)[0]
-            } else {
-                version = Object.keys(versions)[Object.keys(versions).length * Math.random() << 0];
-            }
-        }
+        const version = (
+          forceVersion && versionSplits.findIndex((split) => split.version === forceVersion) !== -1
+        ) ?
+            forceVersion :
+            getSplitTestVersion(versionSplits);
 
         const options = {
             branding_colours: null,
