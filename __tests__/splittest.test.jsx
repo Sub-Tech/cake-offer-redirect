@@ -18,7 +18,7 @@ const versionSplits = [
 describe('getRandomVersion', () => {
   // Mock Math.random() to return a fixed value
   it('should return the correct version based on the random number', () => {
-    global.Math.random = jest.fn(() => 0.4);  // force the random number to be 0.4
+    global.Math.random = jest.fn(() => 0.7);  // force the random number to be 0.4
     const version = getSplitTestVersion(versionSplits);
     expect(version).toBe('version1');
   });
