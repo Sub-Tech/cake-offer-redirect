@@ -24,7 +24,7 @@ export default function Home(props) {
                         ...{
                             geo: countryCode === 'UK' ? 'UK' : 'US',
                             adzukiId: countryCode === 'UK' ? '19464' : '19465',
-                            exclusiveTags: [],
+                            exclusiveTags: (countryCode === 'UK') ? ['external'] : [],
                             isDefaultAffiliate: true,
                             suppressFetch: false
                         }
@@ -152,6 +152,7 @@ export function getServerSideProps(context) {
                     config.geo = 'UK';
                     config.adzukiId = '19464';
                     config.isDefaultAffiliate = true;
+                    config.tag = 'external';
                 }
 
                 if (context?.query?.country === 'US' || context?.query?.country === 'us') {
