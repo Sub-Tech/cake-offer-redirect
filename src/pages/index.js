@@ -153,6 +153,7 @@ export function getServerSideProps(context) {
                     config.adzukiId = '19464';
                     config.isDefaultAffiliate = true;
                     config.tag = 'external';
+                    config.exclusive = true;
                 }
 
                 if (context?.query?.country === 'US' || context?.query?.country === 'us') {
